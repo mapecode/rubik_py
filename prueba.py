@@ -1,4 +1,8 @@
 print("Lab inteligentes")
 print("lab")
 
-print("Buenos Dias")
+
+def buenosDias():
+    print("Buenos Dias")
+
+buenosDias()
