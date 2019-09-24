@@ -1,8 +1,6 @@
 import json
 
-with open('../Files/cube3x3.json', 'r') as file:
-    initState = file.read()
 
-cube = json.loads(initState)
-print(cube)
-print(json.dumps(cube, indent=4))                    # Dar identacion a la hora de mostrar por pantalla el json
+def read(path):
+    with open(path, 'r') as file:
+        return json.load(file)
