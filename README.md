@@ -1,4 +1,4 @@
 # EB1-11
-Laboratorio de Sistemas Inteligentes 19/20
+Laboratorio de Sistemas Inteligentes 2019/2020
 
 
