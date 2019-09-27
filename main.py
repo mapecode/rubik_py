@@ -1,7 +1,8 @@
-from Modules.readjson import read
+from Modules.readjson import *
 
 if __name__ == '__main__':
-    print(read("Files/cube3x3.json"))
+    to_str(read("Files/cube3x3.json"))
+
 
 
 
