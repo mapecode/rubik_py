@@ -8,11 +8,12 @@ def read(path):
 
 def to_str(dic):
     s = ''
+
     for key, value in dic.items():
         for l in value:
-            s += (''.join(str(n) for n in l))
+            s += (''.join(str(i) for i in l))
 
-    return s
+    return s, len(l)
 
 
 def to_string(cube_dict):
