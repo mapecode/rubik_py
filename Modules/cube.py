@@ -72,6 +72,8 @@ class Cube:
                 # Rotar cara principal
                 for i in range(3):  # Rotar 270 en numpy
                     self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
+                # Rotar left to down
+                self.faces[constant.DOWN][row] = self.faces[constant.LEFT][row]
 
             else:  # -90 (izquierda)
                 # Rotar cara principal
