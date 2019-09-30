@@ -76,13 +76,13 @@ class Cube:
                 for i in range(3):  # Rotar 270 en numpy
                     self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
                 # Rotar left to down (down[0] = left[0])
-                down = copy.copy(self.faces[constant.DOWN][0]) # Valor inicial de down[0]
+                down = copy.copy(self.faces[constant.DOWN][0])  # Valor inicial de down[0]
                 self.faces[constant.DOWN][row] = self.faces[constant.LEFT][row]
                 # Rotar down to right (right[0] = down[0])
-                right = copy.copy(self.faces[constant.RIGHT][0]) # Valor inicial de right[0]
+                right = copy.copy(self.faces[constant.RIGHT][0])  # Valor inicial de right[0]
                 self.faces[constant.RIGHT][row] = down
                 # Rotar right to up (up[0] = right[0])
-                up = copy.copy(self.faces[constant.UP][0]) # Valor inicial de up[0]
+                up = copy.copy(self.faces[constant.UP][0])  # Valor inicial de up[0]
                 self.faces[constant.RIGHT][row] = right
                 # Rotar up to left (left[0] = up[0])
                 self.faces[constant.LEFT][row] = up
