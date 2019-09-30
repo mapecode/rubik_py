@@ -52,3 +52,5 @@ class Cube:
                f"LEFT\n{self.__face_str(constant.LEFT)}\n" \
                f"RIGHT\n{self.__face_str(constant.RIGHT)}\n" \
                f"UP\n{self.__face_str(constant.UP)}\n"
+
+    
