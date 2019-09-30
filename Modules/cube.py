@@ -52,14 +52,28 @@ class Cube:
         return s
 
     def __str__(self):
-        return f"BACK\n{self.__face_str(constant.BACK)}\n" \
-               f"DOWN\n{self.__face_str(constant.DOWN)}\n" \
-               f"FRONT\n{self.__face_str(constant.FRONT)}\n" \
-               f"LEFT\n{self.__face_str(constant.LEFT)}\n" \
-               f"RIGHT\n{self.__face_str(constant.RIGHT)}\n" \
-               f"UP\n{self.__face_str(constant.UP)}\n" \
- \
-            # MOVIMIENTOS
+        s = ''
+        for row in self.faces[constant.BACK]:
+            s += str(row) + '\n'
+
+        s+='\n'
+
+        for i in range(self.n):
+            s += str(self.faces[constant.LEFT][i]) + ' ' + str(self.faces[constant.DOWN][i]) + ' ' + \
+                 str(self.faces[constant.RIGHT][i]) + ' ' + str(self.faces[constant.UP][i]) + '\n'
+
+
+        s += '\n'
+
+        for row in self.faces[constant.FRONT]:
+            s += str(row) + '\n'
+
+        s+=self.n*'-------------------------'+'\n'
+
+
+        return s
+
+        # MOVIMIENTOS
 
     """ DEFINICION DE MOVIMIENTO
     row: fila que se mueve
@@ -70,26 +84,45 @@ class Cube:
     """
 
     def move_back(self, row, rotate):
-        if row == 0:
+        def rot_right():
+            """ Rotar fila 90 grados"""
+            # Rotar left to down (down[row] = left[row])
+            down = copy.copy(self.faces[constant.DOWN][row])  # Valor inicial de down[row]
+            self.faces[constant.DOWN][row] = self.faces[constant.LEFT][row]
+            # Rotar down to right (right[row] = down[row])
+            right = copy.copy(self.faces[constant.RIGHT][row])  # Valor inicial de right[row]
+            self.faces[constant.RIGHT][row] = down
+            # Rotar right to up (up[row] = right[row])
+            up = copy.copy(self.faces[constant.UP][row])  # Valor inicial de up[row]
+            self.faces[constant.RIGHT][row] = right
+            # Rotar up to left (left[0] = up[0])
+            self.faces[constant.LEFT][row] = up
+
+        def rot_left():
+            """ Rotar fila -90 grados"""
+            pass
+
+        if row == 0:  # Rotar cara back y fila 0
             if rotate:  # 90 (derecha)
-                # Rotar cara principal
+                # Rotar back
                 for i in range(3):  # Rotar 270 en numpy
                     self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
-                # Rotar left to down (down[0] = left[0])
-                down = copy.copy(self.faces[constant.DOWN][0])  # Valor inicial de down[0]
-                self.faces[constant.DOWN][row] = self.faces[constant.LEFT][row]
-                # Rotar down to right (right[0] = down[0])
-                right = copy.copy(self.faces[constant.RIGHT][0])  # Valor inicial de right[0]
-                self.faces[constant.RIGHT][row] = down
-                # Rotar right to up (up[0] = right[0])
-                up = copy.copy(self.faces[constant.UP][0])  # Valor inicial de up[0]
-                self.faces[constant.RIGHT][row] = right
-                # Rotar up to left (left[0] = up[0])
-                self.faces[constant.LEFT][row] = up
+                rot_right()
             else:  # -90 (izquierda)
-                # Rotar cara principal
+                # Rotar back
                 self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
-        elif row == 1:
-            pass
-        elif row == 2:
-            pass
+                rot_left()
+        elif row == 1:  # Rotar fila 1
+            if rotate:  # 90 (derecha)
+                rot_right()
+            else:  # -90 (izquierda)
+                rot_left()
+        elif row == 2:  # Rotar cara front y fila 2
+            if rotate:  # 90 (derecha)
+                # Rotar front
+                for i in range(3):  # Rotar 270 en numpy
+                    self.faces[constant.FRONT] = np.rot90(self.faces[constant.FRONT])
+                rot_right()
+            else:  # -90 (izquierda)
+                self.faces[constant.FRONT] = np.rot90(self.faces[constant.FRONT])
+                rot_left()
