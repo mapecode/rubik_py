@@ -1,4 +1,5 @@
 import Modules.constants as constant
+import numpy as np
 
 
 class Cube:
@@ -7,7 +8,7 @@ class Cube:
         self.n = n
         self.faces = self.__create_cube()
 
-    #Creacion del cubo
+    # Creacion del cubo
     def __create_cube(self):
         faces = []
         i = 0
@@ -17,7 +18,7 @@ class Cube:
             i += 1
         return faces
 
-    #Crear las caras del cubo
+    # Crear las caras del cubo
     def __create_face(self, n_face):
         start = n_face * self.n * self.n
         end = start + self.n * self.n - 1
@@ -28,9 +29,9 @@ class Cube:
             face.append(self.__create_row(i, i + self.n))
             i += self.n
 
-        return face
+        return np.array(face)
 
-    #Creacion de las filas
+    # Creacion de las filas
     def __create_row(self, start, end):
         row = []
 
@@ -56,5 +57,25 @@ class Cube:
                f"RIGHT\n{self.__face_str(constant.RIGHT)}\n" \
                f"UP\n{self.__face_str(constant.UP)}\n" \
 
-    def move_back(self):
-        if
+    def rotate(self):
+        self.faces[0] = np.rot90(self.faces[0])
+    # MOVIMIENTOS
+    """ DEFINICION DE MOVIMIENTO
+    face: cara que se mueve
+        mayus: 90
+        minus: -90
+    row: fila que se mueve
+        0,1,2
+    """
+
+
+"""
+
+    def move_back(self,face,row):
+        if row == 0:
+            if str(face).isupper(): # 90
+
+
+            else:# -90
+
+"""
