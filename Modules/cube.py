@@ -52,14 +52,26 @@ class Cube:
         return s
 
     def __str__(self):
-        return f"BACK\n{self.__face_str(constant.BACK)}\n" \
-               f"DOWN\n{self.__face_str(constant.DOWN)}\n" \
-               f"FRONT\n{self.__face_str(constant.FRONT)}\n" \
-               f"LEFT\n{self.__face_str(constant.LEFT)}\n" \
-               f"RIGHT\n{self.__face_str(constant.RIGHT)}\n" \
-               f"UP\n{self.__face_str(constant.UP)}\n" \
- \
-            # MOVIMIENTOS
+        s = ''
+        for row in self.faces[constant.BACK]:
+            s += str(row) + '\n'
+
+        s += '\n'
+
+        for i in range(self.n):
+            s += str(self.faces[constant.LEFT][i]) + ' ' + str(self.faces[constant.DOWN][i]) + ' ' + \
+                 str(self.faces[constant.RIGHT][i]) + ' ' + str(self.faces[constant.UP][i]) + '\n'
+
+        s += '\n'
+
+        for row in self.faces[constant.FRONT]:
+            s += str(row) + '\n'
+
+        s += self.n * '-------------------------' + '\n'
+
+        return s
+
+        # MOVIMIENTOS
 
     """ DEFINICION DE MOVIMIENTO
     row: fila que se mueve
@@ -69,25 +81,36 @@ class Cube:
         False: -90
     """
 
+    def rotate_face(self, rotate):
+        """ Rotar una cara sobre si misma"""
+        if rotate:  # 90
+            for i in range(3):  # Rotar 270 en numpy
+                self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
+        else:  # -90
+            self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
+
     def move_back(self, row, rotate):
-        if row == 0:
-            if rotate:  # 90 (derecha)
-                # Rotar cara principal
-                for i in range(3):  # Rotar 270 en numpy
-                    self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
-                # Rotar left to down (down[0] = left[0])
-                down = copy.copy(self.faces[constant.DOWN][0]) # Valor anterior de down[0]
-                self.faces[constant.DOWN][row] = self.faces[constant.LEFT][row]
-                # Rotar down to right (right[0] = down[0])
-                right = copy.copy(self.faces[constant.RIGHT][0]) # Valor anterior de right
+        def rotate_row():
+            """ Rotar filas """
+            if rotate:  # 90
+                # Rotar left to down (down[row] = left[row])
+                left = copy.copy(self.faces[constant.LEFT][row])  # Valor inicial de left[row]
+                down = copy.copy(self.faces[constant.DOWN][row])  # Valor inicial de down[row]
+                self.faces[constant.DOWN][row] = left
+
+                # Rotar down to right (right[row] = down[row])
+                right = copy.copy(self.faces[constant.RIGHT][row])  # Valor inicial de right[row]
                 self.faces[constant.RIGHT][row] = down
 
+                # Rotar right to up (up[row] = right[row])
+                up = copy.copy(self.faces[constant.UP][row])  # Valor inicial de up[row]
+                self.faces[constant.UP][row] = right
+                # Rotar up to left (left[0] = up[0])
+                self.faces[constant.LEFT][row] = up
+            else:  # -90
+                pass
 
+        if row == 0 or row == self.n - 1:
+            self.rotate_face(rotate)
 
-            else:  # -90 (izquierda)
-                # Rotar cara principal
-                self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
-        elif row == 1:
-            pass
-        elif row == 2:
-            pass
+        rotate_row()
