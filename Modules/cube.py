@@ -56,9 +56,7 @@ class Cube:
                f"LEFT\n{self.__face_str(constant.LEFT)}\n" \
                f"RIGHT\n{self.__face_str(constant.RIGHT)}\n" \
                f"UP\n{self.__face_str(constant.UP)}\n" \
-
-    def rotate(self):
-        self.faces[0] = np.rot90(self.faces[0])
+ \
     # MOVIMIENTOS
     """ DEFINICION DE MOVIMIENTO
     face: cara que se mueve
@@ -68,14 +66,17 @@ class Cube:
         0,1,2
     """
 
-
-"""
-
-    def move_back(self,face,row):
+    def move_back(self, row, rotate):
         if row == 0:
-            if str(face).isupper(): # 90
+            if rotate:  # 90 (derecha)
+                # Rotar cara principal
+                for i in range(3):  # Rotar 270 en numpy
+                    self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
 
-
-            else:# -90
-
-"""
+            else:  # -90 (izquierda)
+                # Rotar cara principal
+                self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
+        elif row == 1:
+            pass
+        elif row == 2:
+            pass
