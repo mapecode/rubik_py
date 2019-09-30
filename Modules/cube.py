@@ -2,7 +2,6 @@ import Modules.constants as constant
 
 
 class Cube:
-    #Declaracion del metodo constructor, en el cual se inicializaran los atributos de la clase
     def __init__(self, id_string, n):
         self.id_string = id_string
         self.n = n
@@ -56,4 +55,6 @@ class Cube:
                f"LEFT\n{self.__face_str(constant.LEFT)}\n" \
                f"RIGHT\n{self.__face_str(constant.RIGHT)}\n" \
                f"UP\n{self.__face_str(constant.UP)}\n" \
-               f"UP\n{self.__face_str(constant.UP)}\n"
+
+    def move_back(self):
+        if
