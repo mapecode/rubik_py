@@ -123,19 +123,31 @@ class Cube:
                 down = copy.copy(self.faces[constant.DOWN][:, column])  # Valor incial de down[:, column]
                 self.faces[constant.DOWN][:, column] = front
                 # Rotar down to back (back[:,column] = down[:, colummn])
-                back = copy.copy(self.faces[constant.BACK][:, column])  # Valor incial de back[:, column]
-                self.faces[constant.BACK][:, column] = down
+                back = copy.copy(self.faces[constant.BACK][:, self.n-(column+1)])  # Valor incial de back[:, n-(column+1)]
+                self.faces[constant.BACK][:, self.n-(column+1)] = down[::-1] # Invertimos columna down to back
                 # Rotar back to up
                 up = copy.copy(self.faces[constant.UP][:, column])
-                self.faces[constant.UP][:, column] = back
+                self.faces[constant.UP][:, column] = back[::-1]     # Invertimos columna back to up
                 # Rotar up to front
                 self.faces[constant.FRONT][:, column] = up
             else:  # -90
-                pass
-        # Comprobacion cara que debe rotar sobre si misma (Left o Right)
+                # Rotar front to up
+                front = copy.copy(self.faces[constant.FRONT][:, column])  # Valor incial de front[:, column]
+                up = copy.copy(self.faces[constant.UP][:, column])  # Valor incial de up[:, column]
+                self.faces[constant.UP][:, column] = front
+                # Rotar up to back
+                back = copy.copy(self.faces[constant.BACK][:, self.n-(column+1)])  # Valor incial de back[:, column]
+                self.faces[constant.BACK][:, self.n-(column+1)] = up[::-1]  # Invertimos columna up to back
+                # Rotar back to down
+                down = copy.copy(self.faces[constant.DOWN][:, column])  # Valor incial de down[:, column]
+                self.faces[constant.DOWN][:, column] = back[::-1]   # Invertimos columna back to down
+                # Rotar down to front
+                self.faces[constant.FRONT][:, column] = down
+
+        # Comprobacion cara a rotar sobre si misma (Left o Right)
         if column == 0:
             self.rotate_face(rotate, constant.LEFT)
-        elif column == self.n-1:
+        elif column == self.n - 1:
             self.rotate_face(rotate, constant.RIGHT)
 
         rotate_column()
