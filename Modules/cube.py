@@ -135,14 +135,13 @@ class Cube:
                 down = copy.copy(self.faces[constant.DOWN][:, column])  # Valor incial de down[:, column]
                 self.faces[constant.DOWN][:, column] = front
                 # Rotar down to back (back[:,column] = down[:, colummn])
-                back = copy.copy(
-                    self.faces[constant.BACK][:, self.n - (column + 1)])  # Valor incial de back[:, n-(column+1)]
-                self.faces[constant.BACK][:, self.n - (column + 1)] = down[::-1]  # Invertimos columna down to back
+                back = copy.copy(self.faces[constant.BACK][:, column])  # Valor incial de back [:,column]
+                self.faces[constant.BACK][:, column] = down  # Invertimos columna down to back
                 # Rotar back to up
-                up = copy.copy(self.faces[constant.UP][:, column])
-                self.faces[constant.UP][:, column] = back[::-1]  # Invertimos columna back to up
+                up = copy.copy(self.faces[constant.UP][:, self.n - (column + 1)])
+                self.faces[constant.UP][:, self.n - (column + 1)] = back[::-1]  # Invertimos columna back to up
                 # Rotar up to front
-                self.faces[constant.FRONT][:, column] = up
+                self.faces[constant.FRONT][:, column] = up[::-1]
             else:  # -90
                 # Rotar front to up
                 front = copy.copy(self.faces[constant.FRONT][:, column])  # Valor incial de front[:, column]
@@ -163,3 +162,7 @@ class Cube:
             self.rotate_face(rotate, constant.RIGHT)
 
         rotate_column()
+
+    def move_down(self, column, rotate):
+        def rotate():
+            pass
