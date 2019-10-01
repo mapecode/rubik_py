@@ -7,10 +7,6 @@ if __name__ == '__main__':
     id_string, n = to_str(json_dict)
     c = Cube(id_string, n)
     print(c)
-    c.move_back(1, True)
+    c.move_left(0, False)
     print(c)
-
-
-
-
 
