@@ -8,4 +8,6 @@ if __name__ == '__main__':
     c = Cube(id_string, n)
     print(c)
     c.move_left(0, True)
+    c.move_back(2, False)
+    print(c)
 
