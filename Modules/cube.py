@@ -120,9 +120,11 @@ class Cube:
                 self.faces[constant.LEFT][row] = down
 
 
-
-        if row == 0 or row == self.n - 1:
+        # Comprobacion rotacion sobre si misma (BACK o FRONT)
+        if row == 0:
             self.rotate_face(rotate, constant.BACK)
+        elif row == self.n - 1:
+            self.rotate_face(rotate, constant.FRONT)
 
         rotate_row()
 
