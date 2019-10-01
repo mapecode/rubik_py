@@ -81,13 +81,13 @@ class Cube:
         False: -90
     """
 
-    def rotate_face(self, rotate):
-        """ Rotar una cara sobre si misma"""
+    def rotate_face(self, rotate, id_face):
+        """ Rotar una cara sobre si misma Generico"""
         if rotate:  # 90
             for i in range(3):  # Rotar 270 en numpy
-                self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
+                self.faces[id_face] = np.rot90(self.faces[id_face])
         else:  # -90
-            self.faces[constant.BACK] = np.rot90(self.faces[constant.BACK])
+            self.faces[id_face] = np.rot90(self.faces[id_face])
 
     def move_back(self, row, rotate):
         def rotate_row():
@@ -97,20 +97,58 @@ class Cube:
                 left = copy.copy(self.faces[constant.LEFT][row])  # Valor inicial de left[row]
                 down = copy.copy(self.faces[constant.DOWN][row])  # Valor inicial de down[row]
                 self.faces[constant.DOWN][row] = left
-
                 # Rotar down to right (right[row] = down[row])
                 right = copy.copy(self.faces[constant.RIGHT][row])  # Valor inicial de right[row]
                 self.faces[constant.RIGHT][row] = down
-
                 # Rotar right to up (up[row] = right[row])
                 up = copy.copy(self.faces[constant.UP][row])  # Valor inicial de up[row]
                 self.faces[constant.UP][row] = right
-                # Rotar up to left (left[0] = up[0])
+                # Rotar up to left (left[row] = up[row])
                 self.faces[constant.LEFT][row] = up
             else:  # -90
-                pass
+                # Rotar left to up (up[row] = left[row])
+                left = copy.copy(self.faces[constant.LEFT][row])  # Valor inicial de left[row]
+                up = copy.copy(self.faces[constant.UP][row])  # Valor inicial de up[row]
+                self.faces[constant.UP][row] = left
+                # Rotar up to right (right[row] = up[row])
+                right = copy.copy(self.faces[constant.RIGHT][row])  # Valor inicial de right[row]
+                self.faces[constant.RIGHT][row] = up
+                # Rotar right to down (down[row] = right[row])
+                down = copy.copy(self.faces[constant.DOWN][row])
+                self.faces[constant.DOWN][row] = right
+                # Rotar down to left (left[row] = down[row])
+                self.faces[constant.LEFT][row] = down
+
+
 
         if row == 0 or row == self.n - 1:
-            self.rotate_face(rotate)
+            self.rotate_face(rotate, constant.BACK)
 
         rotate_row()
+
+    def move_left(self, column, rotate):
+        def rotate_column():
+            '''Rotar columnas'''
+            # Tener en cuenta BACK
+            if rotate:
+                # Rotar front to down (down[:, column] = front[:, column])
+                front = copy.copy(self.faces[constant.FRONT][:, column])  # Valor incial de front[:, column]
+                down = copy.copy(self.faces[constant.DOWN][:, column])  # Valor incial de down[:, column]
+                self.faces[constant.DOWN][:, column] = front
+                # Rotar down to back (back[:,column] = down[:, colummn])
+                back = copy.copy(self.faces[constant.BACK][:, column])  # Valor incial de back[:, column]
+                self.faces[constant.BACK][:, column] = down
+                # Rotar back to up
+                up = copy.copy(self.faces[constant.UP][:, column])
+                self.faces[constant.UP][:, column] = back
+                # Rotar up to front
+                self.faces[constant.FRONT][:, column] = up
+            else:  # -90
+                pass
+        # Comprobacion cara que debe rotar sobre si misma (Left o Right)
+        if column == 0:
+            self.rotate_face(rotate, constant.LEFT)
+        elif column == self.n-1:
+            self.rotate_face(rotate, constant.RIGHT)
+
+        rotate_column()
