@@ -147,7 +147,7 @@ class Cube:
                 # Rotar front to up
                 front = copy.copy(self.faces[constant.FRONT][:, column])  # Valor incial de front[:, column]
                 up = copy.copy(self.faces[constant.UP][:, self.n - (column + 1)])  # Valor incial de up[:, column]
-                self.faces[constant.UP][:, self.n - (column + 1)] = front[::-1]
+                self.faces[constant.UP][:, self.n - (column + 1)] = front[::-1]  ##
                 # Rotar up to back
                 back = copy.copy(self.faces[constant.BACK][:, self.n - (column + 1)])  # Valor incial de back[:, column]
                 self.faces[constant.BACK][:, self.n - (column + 1)] = up[::-1]  # Invertimos columna up to back
