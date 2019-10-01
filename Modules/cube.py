@@ -118,7 +118,7 @@ class Cube:
                 self.faces[constant.DOWN][row] = right
                 # Rotar down to left (left[row] = down[row])
                 self.faces[constant.LEFT][row] = down
-
+        # Comprobacion rotacion sobre si misma (BACK o FRONT)
         if row == 0:
             self.rotate_face(rotate, constant.BACK)
         elif row == self.n - 1:
@@ -156,7 +156,6 @@ class Cube:
                 self.faces[constant.DOWN][:, column] = back[::-1]  # Invertimos columna back to down
                 # Rotar down to front
                 self.faces[constant.FRONT][:, column] = down
-
         # Comprobacion cara a rotar sobre si misma (Left o Right)
         if column == 0:
             self.rotate_face(rotate, constant.LEFT)
