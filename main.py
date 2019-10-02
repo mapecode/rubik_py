@@ -4,8 +4,14 @@ import Modules.constants as constants
 
 if __name__ == '__main__':
     json_dict = read("Files/cube3x3.json")
-    id_string, n = to_str(json_dict)
-    c = Cube(id_string, n)
+    #id_string = to_str(json_dict)
+    c = Cube(json_dict)
     print(c)
-    c.move_left(0, False)
+    c.move_back(0,True)
     print(c)
+
+
+
+
+
+
