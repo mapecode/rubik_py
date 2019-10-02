@@ -5,8 +5,6 @@ def read(path):
     with open(path, 'r') as file:
         return json.load(file)
 
-def json_to_cube():
-    pass
 
 def to_str(dic):
     s = ''

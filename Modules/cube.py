@@ -1,4 +1,5 @@
 import Modules.constants as constant
+import Modules.cipher as cipher
 import numpy as np
 import copy
 
@@ -15,8 +16,15 @@ def create_cube(cube_values):
 class Cube:
     def __init__(self, dic_cube):
         self.faces, self.n = create_cube(dic_cube.values())
+        self.cube_md5 = self.__cube_to_md5()
 
-    # Creacion del cubo
+    def __cube_to_md5(self):
+        s = ''
+        for n in self.faces[0]:
+            s += (''.join(str(i) for i in n))
+
+        return cipher.encode(s)
+
 
     def __str__(self):
         s = ''
