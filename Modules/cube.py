@@ -25,7 +25,6 @@ class Cube:
 
         return cipher.encode(s)
 
-
     def __str__(self):
         s = ''
         for row in self.faces[constant.BACK]:
