@@ -13,13 +13,5 @@ if __name__ == '__main__':
     c.move_left(1, True)
     c.move_left(2, True)
     c.move_back(3, True)
-    # Ir hacia atras
-    c.move_back(3, False)
-    c.move_left(2, False)
-    c.move_left(1, False)
-    c.move_down(1, False)
-    c.move_back(0, False)
-    c.move_left(0, False)
-    c.move_down(0, False)
-    print(c)
+
 
