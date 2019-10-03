@@ -68,7 +68,7 @@ class Cube:
 
     def move_back(self, row, rotate):
         def rotate_row():
-            """ Rotar filas """
+            """ Rotar fila """
             sequence = [constant.DOWN, constant.RIGHT, constant.UP, constant.LEFT]  # Secuencia 90 grados
             if not rotate:  # -90
                 sequence = sequence[::-1]  # Inversa de la secuencia
@@ -90,33 +90,23 @@ class Cube:
 
     def move_left(self, column, rotate):
         def rotate_column():
-            '''Rotar columnas'''
-            if rotate:
-                # Rotar front to down (down[:, column] = front[:, column])
-                front = copy.copy(self.faces[constant.FRONT][:, column])  # Valor incial de front[:, column]
-                down = copy.copy(self.faces[constant.DOWN][:, column])  # Valor incial de down[:, column]
-                self.faces[constant.DOWN][:, column] = front
-                # Rotar down to back (back[:,column] = down[:, colummn])
-                back = copy.copy(self.faces[constant.BACK][:, column])  # Valor inicial de back [:,column]
-                self.faces[constant.BACK][:, column] = down
-                # Rotar back to up
-                up = copy.copy(self.faces[constant.UP][:, self.n - (column + 1)])  # Valor inicial up
-                self.faces[constant.UP][:, self.n - (column + 1)] = back[::-1]  # Invertimos columna back to up
-                # Rotar up to front
-                self.faces[constant.FRONT][:, column] = up[::-1]
-            else:  # -90
-                # Rotar front to up
-                front = copy.copy(self.faces[constant.FRONT][:, column])  # Valor inicial de front[:, column]
-                up = copy.copy(self.faces[constant.UP][:, self.n - (column + 1)])  # Valor incial de up[:, column]
-                self.faces[constant.UP][:, self.n - (column + 1)] = front[::-1]  # Invertimos columna front to up
-                # Rotar up to back
-                back = copy.copy(self.faces[constant.BACK][:, column])  # Valor inicial de back[:, column]
-                self.faces[constant.BACK][:, column] = up[::-1]  # Invertimos columna up to back
-                # Rotar back to down
-                down = copy.copy(self.faces[constant.DOWN][:, column])  # Valor incial de down[:, column]
-                self.faces[constant.DOWN][:, column] = back
-                # Rotar down to front
-                self.faces[constant.FRONT][:, column] = down
+            '''Rotar columna'''
+            sequence = [constant.FRONT, constant.DOWN, constant.BACK, constant.UP]  # Secuencia de 90 grados
+            if not rotate:  # -90 grados
+                sequence = sequence[::-1]  # Inversa de la secuencia
+
+            faces_copy = []
+            for id_face in sequence:
+                if id_face == constant.UP:
+                    faces_copy.append(copy.copy(self.faces[id_face][:, self.n - (column + 1)])[::-1])
+                else:
+                    faces_copy.append(copy.copy(self.faces[id_face][:, column]))
+
+            for i in range(len(sequence)):
+                if sequence[i] == constant.UP:
+                    self.faces[sequence[i]][:, self.n - (column + 1)] = faces_copy[i - 1][::-1]
+                else:
+                    self.faces[sequence[i]][:, column] = faces_copy[i - 1]
 
         # Comprobacion rotacion sobre si misma (Left o Right)
         if column == 0:
@@ -127,37 +117,32 @@ class Cube:
         rotate_column()
 
     def move_down(self, row_column, rotate):
+        '''Rotar fila - columna'''
         def rotate_rc():
-            # 90
-            if rotate:
+            # Valor inicial de las caras
+            left = copy.copy(
+                self.faces[constant.LEFT][:, self.n - (row_column + 1)])  # Valor inicial left
+            back = copy.copy(self.faces[constant.BACK][self.n - (row_column + 1)])  # Valor inicial back
+            right = copy.copy(self.faces[constant.RIGHT][:, row_column])  # Valor inicial right
+            front = copy.copy(self.faces[constant.FRONT][row_column])  # Valor inicial front
+            if rotate:  # 90
                 # Rotar Left to Back
-                left = copy.copy(
-                    self.faces[constant.LEFT][:, self.n - (row_column + 1)])  # Valor inicial left
-                back = copy.copy(self.faces[constant.BACK][self.n - (row_column + 1)])  # Valor inicial back
                 self.faces[constant.BACK][self.n - (row_column + 1)] = left[::-1]
                 # Rotar Back to Right
-                right = copy.copy(self.faces[constant.RIGHT][:, row_column])  # Valor inicial right
                 self.faces[constant.RIGHT][:, row_column] = back
                 # Rotar Right to Front
-                front = copy.copy(self.faces[constant.FRONT][row_column])  # Valor inicial front
                 self.faces[constant.FRONT][row_column] = right[::-1]
                 # Rotar Front to Left
                 self.faces[constant.LEFT][:, self.n - (row_column + 1)] = front
-            # -90
-            else:
+            else:  # -90
                 # Rotar Left to Front
-                left = copy.copy(
-                    self.faces[constant.LEFT][:, self.n - (row_column + 1)])
-                front = copy.copy(self.faces[constant.FRONT][row_column])
                 self.faces[constant.FRONT][row_column] = left
                 # Rotar Front to Right
-                right = copy.copy(self.faces[constant.RIGHT][:, row_column])
                 self.faces[constant.RIGHT][:, row_column] = front[::-1]
                 # Rotar Right to Back
-                back = copy.copy(self.faces[constant.BACK][self.n - (row_column + 1)])
                 self.faces[constant.BACK][self.n - (row_column + 1)] = right
-                #Rotar Back to Left
-                self.faces[constant.LEFT][:, self.n-(row_column+1)] = back[::-1]
+                # Rotar Back to Left
+                self.faces[constant.LEFT][:, self.n - (row_column + 1)] = back[::-1]
 
         # Comprobacion rotacion sobre si misma (Down o Up)
         if row_column == 0:
