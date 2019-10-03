@@ -142,6 +142,43 @@ class Cube:
 
         rotate_column()
 
-    def move_down(self, column, rotate):
-        def rotate():
-            pass
+    def move_down(self, row_column, rotate):
+        def rotate_rc():
+            # 90
+            if rotate:
+                # Rotar Left to Back
+                left = copy.copy(
+                    self.faces[constant.LEFT][:, self.n - (row_column + 1)])  # Valor inicial left
+                back = copy.copy(self.faces[constant.BACK][self.n - (row_column + 1)])  # Valor inicial back
+                self.faces[constant.BACK][self.n - (row_column + 1)] = left[::-1]
+                # Rotar Back to Right
+                right = copy.copy(self.faces[constant.RIGHT][:, row_column])  # Valor inicial right
+                self.faces[constant.RIGHT][:, row_column] = back
+                # Rotar Right to Front
+                front = copy.copy(self.faces[constant.FRONT][row_column])  # Valor inicial front
+                self.faces[constant.FRONT][row_column] = right[::-1]
+                # Rotar Front to Left
+                self.faces[constant.LEFT][:, self.n - (row_column + 1)] = front
+            # -90
+            else:
+                # Rotar Left to Front
+                left = copy.copy(
+                    self.faces[constant.LEFT][:, self.n - (row_column + 1)])
+                front = copy.copy(self.faces[constant.FRONT][row_column])
+                self.faces[constant.FRONT][row_column] = left
+                # Rotar Front to Right
+                right = copy.copy(self.faces[constant.RIGHT][:, row_column])
+                self.faces[constant.RIGHT][:, row_column] = front[::-1]
+                # Rotar Right to Back
+                back = copy.copy(self.faces[constant.BACK][self.n - (row_column + 1)])
+                self.faces[constant.BACK][self.n - (row_column + 1)] = right
+                #Rotar Back to Left
+                self.faces[constant.LEFT][:, self.n-(row_column+1)] = back[::-1]
+
+        # Comprobacion rotacion sobre si misma (Down o Up)
+        if row_column == 0:
+            self.rotate_face(rotate, constant.DOWN)
+        elif row_column == self.n - 1:
+            self.rotate_face(rotate, constant.UP)
+
+        rotate_rc()
