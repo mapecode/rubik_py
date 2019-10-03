@@ -26,7 +26,7 @@ class Cube:
         return cipher.encode(s.replace('[', '').replace(']', '').replace(' ', ''))
 
     def update_key(self):
-        self.cube_md5 = self.__cube_to_md5()
+        self.key = self.__cube_to_md5()
 
     def __str__(self):
         s = ''
