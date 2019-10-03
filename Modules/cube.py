@@ -16,14 +16,17 @@ def create_cube(cube_values):
 class Cube:
     def __init__(self, dic_cube):
         self.faces, self.n = create_cube(dic_cube.values())
-        self.cube_md5 = self.__cube_to_md5()
+        self.key = self.__cube_to_md5()
 
     def __cube_to_md5(self):
         s = ''
-        for n in self.faces[0]:
+        for n in self.faces:
             s += (''.join(str(i) for i in n))
 
-        return cipher.encode(s)
+        return cipher.encode(s.replace('[', '').replace(']', '').replace(' ', ''))
+
+    def update_key(self):
+        self.key = self.__cube_to_md5()
 
     def __str__(self):
         s = ''
