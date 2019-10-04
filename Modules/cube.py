@@ -13,6 +13,16 @@ def create_cube(cube_values):
     return cube, len(cube[0])
 
 
+def invert_sequence(sequence):
+    sequence = sequence.swapcase()
+    seq_invert = ''
+
+    for i in range(len(sequence) - 1, -1, -2):
+        seq_invert += sequence[i-1] + sequence[i]
+
+    return seq_invert
+
+
 class Cube:
     def __init__(self, dic_cube):
         self.faces, self.n = create_cube(dic_cube.values())
@@ -25,7 +35,7 @@ class Cube:
 
         return cipher.encode(s.replace('[', '').replace(']', '').replace(' ', ''))
 
-    def update_key(self):
+    def __update_key(self):
         self.key = self.__cube_to_md5()
 
     def __str__(self):
@@ -48,15 +58,20 @@ class Cube:
 
         return s
 
-        # MOVIMIENTOS
+    def apply_sequence(self, sequence):
+        for i in range(0, len(sequence), 2):
+            if (not sequence[i].lower() in ['l', 'd', 'b']) or (
+                    int(sequence[i + 1]) < 0 or int(sequence[i + 1]) > self.n - 1):
+                raise ValueError('Movimiento incorrecto: ', sequence[i] + sequence[i + 1])
 
-    """ DEFINICION DE MOVIMIENTO
-    row: fila que se mueve
-        0,1,2
-    rotate: 
-        True: 90
-        False: -90
-    """
+            if sequence[i].lower() == 'l':
+                self.move_left(int(sequence[i + 1]), sequence[i].islower())
+            elif sequence[i].lower() == 'd':
+                self.move_back(int(sequence[i + 1]), sequence[i].islower())
+            elif sequence[i].lower() == 'b':
+                self.move_down(int(sequence[i + 1]), sequence[i].islower())
+
+        self.__update_key()
 
     def rotate_face(self, rotate, id_face):
         """ Rotar una cara sobre si misma Generico"""
@@ -69,14 +84,14 @@ class Cube:
     def move_back(self, row, rotate):
         def rotate_row():
             """ Rotar fila """
-            sequence = [constant.DOWN, constant.RIGHT, constant.UP, constant.LEFT]  # Secuencia 90 grados
+            faces_sequence = [constant.DOWN, constant.RIGHT, constant.UP, constant.LEFT]  # Secuencia 90 grados
             if not rotate:  # -90
-                sequence = sequence[::-1]  # Inversa de la secuencia
+                faces_sequence = faces_sequence[::-1]  # Inversa de la secuencia
 
-            faces_copy = [copy.copy(self.faces[id_face][row]) for id_face in sequence]
+            faces_copy = [copy.copy(self.faces[id_face][row]) for id_face in faces_sequence]
 
-            for i in range(len(sequence)):
-                self.faces[sequence[i]][row] = faces_copy[i - 1]
+            for i in range(len(faces_sequence)):
+                self.faces[faces_sequence[i]][row] = faces_copy[i - 1]
 
         # Comprobacion rotacion sobre si misma (BACK o FRONT)
         if row == 0:
@@ -89,23 +104,23 @@ class Cube:
     def move_left(self, column, rotate):
         def rotate_column():
             '''Rotar columna'''
-            sequence = [constant.FRONT, constant.DOWN, constant.BACK, constant.UP]  # Secuencia de 90 grados
+            faces_sequence = [constant.FRONT, constant.DOWN, constant.BACK, constant.UP]  # Secuencia de 90 grados
             if not rotate:  # -90 grados
-                sequence = sequence[::-1]  # Inversa de la secuencia
+                faces_sequence = faces_sequence[::-1]  # Inversa de la secuencia
 
             faces_copy = []
             pos = self.n - (column + 1)
-            for id_face in sequence:
+            for id_face in faces_sequence:
                 if id_face == constant.UP:
                     faces_copy.append(copy.copy(self.faces[id_face][:, pos])[::-1])
                 else:
                     faces_copy.append(copy.copy(self.faces[id_face][:, column]))
 
-            for i in range(len(sequence)):
-                if sequence[i] == constant.UP:
-                    self.faces[sequence[i]][:, pos] = faces_copy[i - 1][::-1]
+            for i in range(len(faces_sequence)):
+                if faces_sequence[i] == constant.UP:
+                    self.faces[faces_sequence[i]][:, pos] = faces_copy[i - 1][::-1]
                 else:
-                    self.faces[sequence[i]][:, column] = faces_copy[i - 1]
+                    self.faces[faces_sequence[i]][:, column] = faces_copy[i - 1]
 
         # Comprobacion rotacion sobre si misma (Left o Right)
         if column == 0:
@@ -117,16 +132,17 @@ class Cube:
 
     def move_down(self, row_column, rotate):
         '''Rotar fila - columna'''
+
         def rotate_rc():
 
-            sequence = [constant.BACK, constant.RIGHT, constant.FRONT, constant.LEFT]
+            faces_sequence = [constant.BACK, constant.RIGHT, constant.FRONT, constant.LEFT]
             if not rotate:
-                sequence = sequence[::-1]
+                faces_sequence = faces_sequence[::-1]
 
             faces_copy = []
             pos = self.n - (row_column + 1)
 
-            for id_face in sequence:
+            for id_face in faces_sequence:
                 if id_face is constant.BACK:
                     faces_copy.append(copy.copy(self.faces[id_face][pos]))
                 elif id_face is constant.RIGHT:
@@ -136,15 +152,15 @@ class Cube:
                 elif id_face is constant.LEFT:
                     faces_copy.append(copy.copy(self.faces[id_face][:, pos])[::-1])
 
-            for i in range(len(sequence)):
-                if sequence[i] is constant.BACK:
-                    self.faces[sequence[i]][pos] = faces_copy[i - 1]
-                elif sequence[i] is constant.RIGHT:
-                    self.faces[sequence[i]][:, row_column] = faces_copy[i - 1]
-                elif sequence[i] is constant.FRONT:
-                    self.faces[sequence[i]][row_column] = faces_copy[i - 1]
-                elif sequence[i] is constant.LEFT:
-                    self.faces[sequence[i]][:, pos] = faces_copy[i - 1]
+            for i in range(len(faces_sequence)):
+                if faces_sequence[i] is constant.BACK:
+                    self.faces[faces_sequence[i]][pos] = faces_copy[i - 1]
+                elif faces_sequence[i] is constant.RIGHT:
+                    self.faces[faces_sequence[i]][:, row_column] = faces_copy[i - 1][::-1]
+                elif faces_sequence[i] is constant.FRONT:
+                    self.faces[faces_sequence[i]][row_column] = faces_copy[i - 1]
+                elif faces_sequence[i] is constant.LEFT:
+                    self.faces[faces_sequence[i]][:, pos] = faces_copy[i - 1][::-1]
 
         # Comprobacion rotacion sobre si misma (Down o Up)
         if row_column == 0:
