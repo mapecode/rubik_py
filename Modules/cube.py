@@ -65,11 +65,11 @@ class Cube:
                 raise ValueError('Movimiento incorrecto: ', sequence[i] + sequence[i + 1])
 
             if sequence[i].lower() == 'l':
-                self.move_left(int(sequence[i + 1]), sequence[i].islower())
-            elif sequence[i].lower() == 'd':
-                self.move_back(int(sequence[i + 1]), sequence[i].islower())
+                self.move_left(int(sequence[i + 1]), sequence[i].isupper())
             elif sequence[i].lower() == 'b':
-                self.move_down(int(sequence[i + 1]), sequence[i].islower())
+                self.move_back(int(sequence[i + 1]), sequence[i].isupper())
+            elif sequence[i].lower() == 'd':
+                self.move_down(int(sequence[i + 1]), sequence[i].isupper())
 
         self.__update_key()
 
@@ -85,7 +85,7 @@ class Cube:
         def rotate_row():
             """ Rotar fila """
             faces_sequence = [constant.DOWN, constant.RIGHT, constant.UP, constant.LEFT]  # Secuencia 90 grados
-            if not rotate:  # -90
+            if not rotate:  # -90 grados
                 faces_sequence = faces_sequence[::-1]  # Inversa de la secuencia
 
             faces_copy = [copy.copy(self.faces[id_face][row]) for id_face in faces_sequence]

@@ -5,9 +5,9 @@ import Modules.constants as constants
 if __name__ == '__main__':
     json_dict = read_json("Files/cube3x3.json")
     c = Cube(json_dict)
-    print(c.key)
-    sequence = "b2B1l0"
+    print(c)
+    sequence = "b2"
     c.apply_sequence(sequence)
-    print(c.key)
+    print(c)
     c.apply_sequence(invert_sequence(sequence))
-    print(c.key)
+    print(c)
