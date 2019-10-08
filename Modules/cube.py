@@ -65,15 +65,15 @@ class Cube:
                 raise ValueError('Movimiento incorrecto: ', sequence[i] + sequence[i + 1])
 
             if sequence[i].lower() == 'l':
-                self.move_left(int(sequence[i + 1]), sequence[i].isupper())
+                self.__move_left(int(sequence[i + 1]), sequence[i].isupper())
             elif sequence[i].lower() == 'b':
-                self.move_back(int(sequence[i + 1]), sequence[i].isupper())
+                self.__move_back(int(sequence[i + 1]), sequence[i].isupper())
             elif sequence[i].lower() == 'd':
-                self.move_down(int(sequence[i + 1]), sequence[i].isupper())
+                self.__move_down(int(sequence[i + 1]), sequence[i].isupper())
 
         self.__update_key()
 
-    def rotate_face(self, rotate, id_face):
+    def __rotate_face(self, rotate, id_face):
         """ Rotar una cara sobre si misma Generico"""
         if rotate:  # 90
             for i in range(3):  # Rotar 270 en numpy
@@ -81,7 +81,7 @@ class Cube:
         else:  # -90
             self.faces[id_face] = np.rot90(self.faces[id_face])
 
-    def move_back(self, row, rotate):
+    def __move_back(self, row, rotate):
         def rotate_row():
             """ Rotar fila """
             faces_sequence = [constant.DOWN, constant.RIGHT, constant.UP, constant.LEFT]  # Secuencia 90 grados
@@ -95,13 +95,13 @@ class Cube:
 
         # Comprobacion rotacion sobre si misma (BACK o FRONT)
         if row == 0:
-            self.rotate_face(rotate, constant.BACK)
+            self.__rotate_face(rotate, constant.BACK)
         elif row == self.n - 1:
-            self.rotate_face(rotate, constant.FRONT)
+            self.__rotate_face(rotate, constant.FRONT)
 
         rotate_row()
 
-    def move_left(self, column, rotate):
+    def __move_left(self, column, rotate):
         def rotate_column():
             '''Rotar columna'''
             faces_sequence = [constant.FRONT, constant.DOWN, constant.BACK, constant.UP]  # Secuencia de 90 grados
@@ -124,13 +124,13 @@ class Cube:
 
         # Comprobacion rotacion sobre si misma (Left o Right)
         if column == 0:
-            self.rotate_face(rotate, constant.LEFT)
+            self.__rotate_face(rotate, constant.LEFT)
         elif column == self.n - 1:
-            self.rotate_face(rotate, constant.RIGHT)
+            self.__rotate_face(rotate, constant.RIGHT)
 
         rotate_column()
 
-    def move_down(self, row_column, rotate):
+    def __move_down(self, row_column, rotate):
         '''Rotar fila - columna'''
 
         def rotate_rc():
@@ -164,8 +164,8 @@ class Cube:
 
         # Comprobacion rotacion sobre si misma (Down o Up)
         if row_column == 0:
-            self.rotate_face(rotate, constant.DOWN)
+            self.__rotate_face(rotate, constant.DOWN)
         elif row_column == self.n - 1:
-            self.rotate_face(rotate, constant.UP)
+            self.__rotate_face(rotate, constant.UP)
 
         rotate_rc()
