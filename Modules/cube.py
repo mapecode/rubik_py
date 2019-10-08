@@ -18,7 +18,7 @@ def invert_sequence(sequence):
     seq_invert = ''
 
     for i in range(len(sequence) - 1, -1, -2):
-        seq_invert += sequence[i-1] + sequence[i]
+        seq_invert += sequence[i - 1] + sequence[i]
 
     return seq_invert
 
@@ -133,7 +133,7 @@ class Cube:
     def __move_down(self, row_column, rotate):
         '''Rotar fila - columna'''
 
-        def rotate_rc():
+        def rotate_row_column():
 
             faces_sequence = [constant.BACK, constant.RIGHT, constant.FRONT, constant.LEFT]
             if not rotate:
@@ -168,4 +168,4 @@ class Cube:
         elif row_column == self.n - 1:
             self.__rotate_face(rotate, constant.UP)
 
-        rotate_rc()
+        rotate_row_column()
