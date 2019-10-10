@@ -9,13 +9,14 @@ class Tree_Node():
     # action: accion llevada a cabo desde el padre al estado actual
     # parent: Tree_Node antecesor al nodo actual
     # state: correspondiente al id del cubo generado con md5 ¿?
-    def __init__(self, state, action_cost, action=None, parent=None):
+    def __init__(self, state, f, action_cost=0, action=None, parent=None):
         self.state = state
         self.parent = parent
         self.action = action
-        self.depth = self.f = 0  # Tener en cuenta
+        self.depth = 0;
+        self.f = f
         self.cost = action_cost
 
         if parent is not None:
-            self.depth = self.f = parent.depth + 1
+            self.depth = parent.depth + 1
             self.cost += parent.cost
