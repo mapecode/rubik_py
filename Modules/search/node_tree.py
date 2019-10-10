@@ -1,6 +1,3 @@
-import Modules.state as state
-
-
 class Tree_Node():
     '''Nodo Arbol'''
 

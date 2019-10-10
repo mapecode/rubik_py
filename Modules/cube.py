@@ -1,7 +1,12 @@
 import Modules.constants as constant
-import Modules.cipher as cipher
 import numpy as np
 import copy
+import hashlib
+
+
+def encode(s):
+    h = hashlib.md5(s.encode())
+    return h.hexdigest()
 
 
 def create_cube(cube_values):
@@ -33,7 +38,7 @@ class Cube:
         for n in self.faces:
             s += (''.join(str(i) for i in n))
 
-        return cipher.encode(s.replace('[', '').replace(']', '').replace(' ', ''))
+        return encode(s.replace('[', '').replace(']', '').replace(' ', ''))
 
     def __update_key(self):
         self.key = self.__cube_to_md5()
