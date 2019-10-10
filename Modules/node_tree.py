@@ -5,7 +5,7 @@ class Tree_Node():
     '''Nodo Arbol'''
 
     # f: valor qe determinala posicion del nodo en su inserccion en la frontera, dado que es en orden asc suponemos BFS (f = depth)
-    # road_cost: coste del camino desde el nodo inicial (raiz), hasta el nodo actual
+    # action_cost: coste del camino desde el nodo inicial (raiz), hasta el nodo actual
     # action: accion llevada a cabo desde el padre al estado actual
     # parent: Tree_Node antecesor al nodo actual
     # state: correspondiente al id del cubo generado con md5 ¿?
