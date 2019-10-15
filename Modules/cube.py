@@ -78,6 +78,23 @@ class Cube:
 
         self.__update_key()
 
+    def is_correct(self):
+        def is_face_correct(f):
+            for i in range(self.n):
+                # Compara el primer valor con el resto de valores
+                if not f[0][0] == face[i // self.n][i % self.n]:
+                    return False
+            return True
+
+        correct = True
+        for face in self.faces:
+            correct = is_face_correct(face)
+
+            if not correct:
+                break
+
+        return correct
+
     def __rotate_face(self, rotate, id_face):
         """ Rotar una cara sobre si misma Generico"""
         if rotate:  # 90
