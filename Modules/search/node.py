@@ -12,8 +12,8 @@ class Tree_Node():
         self.action = action
         self.depth = 0;
         self.f = f
-        self.cost = action_cost
+        self.path_cost = action_cost
 
         if parent is not None:
             self.depth = parent.depth + 1
-            self.cost += parent.cost
+            self.path_cost += parent.path_cost
