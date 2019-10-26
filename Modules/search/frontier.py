@@ -1,7 +1,7 @@
 import Modules.search.node
 
 class Frontier:
-    '''Fontera'''
+    '''Frontera'''
 
     def __init__(self, node):
         self.frontier_list = []
