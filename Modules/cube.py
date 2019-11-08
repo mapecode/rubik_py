@@ -31,7 +31,7 @@ def invert_sequence(sequence):
 class Cube:
     def __init__(self, dic_cube):
         self.faces, self.n = create_cube(dic_cube.values())
-        self.key = self.__cube_to_md5()
+        self.hash = self.__cube_to_md5()
 
     def __cube_to_md5(self):
         s = ''
@@ -41,7 +41,7 @@ class Cube:
         return encode(s.replace('[', '').replace(']', '').replace(' ', ''))
 
     def __update_key(self):
-        self.key = self.__cube_to_md5()
+        self.hash = self.__cube_to_md5()
 
     def __str__(self):
         s = ''
@@ -64,6 +64,7 @@ class Cube:
         return s
 
     def apply_sequence(self, sequence):
+        # Preguntar si este metodo se puede hacer directamente en generar estado
         for i in range(0, len(sequence), 2):
             if (not sequence[i].lower() in ['l', 'd', 'b']) or (
                     int(sequence[i + 1]) < 0 or int(sequence[i + 1]) > self.n - 1):

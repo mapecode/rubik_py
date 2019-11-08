@@ -1,20 +1,32 @@
 import copy
 
-class state():
+
+class State():
     def __init__(self, cube):
         self.cube = cube
 
     # Sucesor (accion, estado, coste)
     def successor(self):
+
         sucs = []
 
-        for i in range(3):
-            cube = copy.copy(self.cube)
+        # para cada movimiento se genera una accion segun la n del cubo
+        for movement in ['L', 'l', 'D', 'd', 'B', 'b']:
+            for i in range(self.cube.n):
+                action = movement + str(i)
+                sucs.append([action, self.generate_state(action), 1])
 
-            if i == 0:
-                for j in range(cube.n):
-                    
-            elif i == 1:
+        return sucs
 
-            elif i == 2:
+    def generate_state(self, action):
+        """
+        Se crea un nuevo cubo a partir del principal para aplicar
+        la posible accion
+        :param action: accion a aplicar sobre la copia del cubo
+        :return: el nuevo cubo generado a partir de la accion
+        """
 
+        new_cube = copy.copy(self.cube)
+        new_cube.apply_sequence(action)
+
+        return new_cube
