@@ -7,18 +7,21 @@ class State():
 
     # Sucesor (accion, estado, coste)
     def successor(self):
+        """
+        Devuelve los sucesores del estado
+        :return: sucesores
+        """
 
-        sucs = []
+        succesors = []
 
         # para cada movimiento se genera una accion segun la n del cubo
         for movement in ['L', 'l', 'D', 'd', 'B', 'b']:
             for i in range(self.cube.n):
                 action = movement + str(i)
-                sucs.append([action, self.generate_state(action), 1])
+                succesors.append((action, self.__generate_state(action), 1))
+        return succesors
 
-        return sucs
-
-    def generate_state(self, action):
+    def __generate_state(self, action):
         """
         Se crea un nuevo cubo a partir del principal para aplicar
         la posible accion
