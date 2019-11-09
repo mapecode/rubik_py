@@ -1,13 +1,9 @@
-from Modules.cube import Cube
-from Modules.json import *
-from Modules.search.state import *
 
-class problem:
+class Problem:
 
-    def __init__(self, path):
-        self.state = State()
-        json_dict = read_json(path)
-        self.initial = Cube(json_dict)
+    def __init__(self, state, initial_state):
+        self.state = state
+        self.initial_state = initial_state
 
-    def is_objective(self, state):
-        pass
+    def is_goal(self):
+        return self.state.cube.is_correct()

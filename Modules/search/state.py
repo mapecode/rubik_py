@@ -1,7 +1,6 @@
 import copy
 
-
-class State():
+class State:
     def __init__(self, cube):
         self.cube = cube
 
@@ -11,7 +10,6 @@ class State():
         Devuelve los sucesores del estado
         :return: sucesores
         """
-
         succesors = []
 
         # para cada movimiento se genera una accion segun la n del cubo
