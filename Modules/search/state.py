@@ -25,8 +25,8 @@ class State():
         :param action: accion a aplicar sobre la copia del cubo
         :return: el nuevo cubo generado a partir de la accion
         """
-
-        new_cube = copy.copy(self.cube)
+        # copy.deepcopy(): copia el objeto completo de forma recursiva
+        new_cube = copy.deepcopy(self.cube)
         new_cube.apply_sequence(action)
 
         return new_cube
