@@ -39,7 +39,6 @@ class State:
             """
             for i in range(1, self.cube.n * 2):
                 # Compara el primer valor con el resto de valores
-                print(face[0][0], face[i // self.cube.n][i % self.cube.n])
                 if face[0][0] != face[i // self.cube.n][i % self.cube.n]:
                     return False
             return True
