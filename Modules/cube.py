@@ -17,7 +17,7 @@ def create_cube(cube_values):
 
     return cube, len(cube[0])
 
-
+"""
 def invert_sequence(sequence):
     sequence = sequence.swapcase()
     seq_invert = ''
@@ -26,7 +26,7 @@ def invert_sequence(sequence):
         seq_invert += sequence[i - 1] + sequence[i]
 
     return seq_invert
-
+"""
 
 class Cube:
     def __init__(self, dic_cube):
@@ -40,7 +40,7 @@ class Cube:
 
         return encode(s.replace('[', '').replace(']', '').replace(' ', ''))
 
-    def __update_key(self):
+    def update_key(self):
         self.hash = self.__cube_to_md5()
 
     def __str__(self):
@@ -63,39 +63,6 @@ class Cube:
 
         return s
 
-    def apply_sequence(self, sequence):
-        # Preguntar si este metodo se puede hacer directamente en generar estado
-        for i in range(0, len(sequence), 2):
-            if (not sequence[i].lower() in ['l', 'd', 'b']) or (
-                    int(sequence[i + 1]) < 0 or int(sequence[i + 1]) > self.n - 1):
-                raise ValueError('Movimiento incorrecto: ', sequence[i] + sequence[i + 1])
-
-            if sequence[i].lower() == 'l':
-                self.__move_left(int(sequence[i + 1]), sequence[i].isupper())
-            elif sequence[i].lower() == 'b':
-                self.__move_back(int(sequence[i + 1]), sequence[i].isupper())
-            elif sequence[i].lower() == 'd':
-                self.__move_down(int(sequence[i + 1]), sequence[i].isupper())
-
-        self.__update_key()
-
-    def is_correct(self):
-        def is_face_correct(f):
-            for i in range(self.n):
-                # Compara el primer valor con el resto de valores
-                if not f[0][0] == face[i // self.n][i % self.n]:
-                    return False
-            return True
-
-        correct = True
-        for face in self.faces:
-            correct = is_face_correct(face)
-
-            if not correct:
-                break
-
-        return correct
-
     def __rotate_face(self, rotate, id_face):
         """ Rotar una cara sobre si misma Generico"""
         if rotate:  # 90
@@ -104,7 +71,7 @@ class Cube:
         else:  # -90
             self.faces[id_face] = np.rot90(self.faces[id_face])
 
-    def __move_back(self, row, rotate):
+    def move_back(self, row, rotate):
         def rotate_row():
             """ Rotar fila """
             faces_sequence = [constant.DOWN, constant.RIGHT, constant.UP, constant.LEFT]  # Secuencia 90 grados
@@ -124,7 +91,7 @@ class Cube:
 
         rotate_row()
 
-    def __move_left(self, column, rotate):
+    def move_left(self, column, rotate):
         def rotate_column():
             '''Rotar columna'''
             faces_sequence = [constant.FRONT, constant.DOWN, constant.BACK, constant.UP]  # Secuencia de 90 grados
@@ -153,7 +120,7 @@ class Cube:
 
         rotate_column()
 
-    def __move_down(self, row_column, rotate):
+    def move_down(self, row_column, rotate):
         '''Rotar fila - columna'''
 
         def rotate_row_column():
