@@ -1,28 +1,37 @@
 class Node:
-    '''Nodo del Árbol'''
 
-    # f: valor que determina la posicion del nodo en su inserccion en la frontera, depende de la estrategia elegida.
-    # action_cost: coste del camino desde el nodo actual hasta su nodo sucesor.
-    # action: accion llevada a cabo desde el nodo actual al nodo sucesor.
-    # parent: Node antecesor al nodo actual.
-
-    def __init__(self, parent, state, action_cost, strategy, action):
+    def __init__(self, id_node, parent, state, action_cost, strategy, action):
+        self.id_node = id_node
         self.state = state
         self.parent = parent
         self.action = action
-        self.path_cost = action_cost
+        self.cost = action_cost
 
-        if parent is None:
-            self.path_cost = 0
-            self.depth = 0
-        else:
+        if parent is not None:
+            self.cost = parent.cost + action_cost
             self.depth = parent.depth + 1
-            self.path_cost += parent.path_cost
+        else:
+            self.depth = 0
+            self.cost = action_cost
 
-        self.function = self.define_f(strategy)
+        self.function = round(self.define_f(strategy), 2)
 
     def define_f(self, strategy):
-        if strategy is 'anchura':
+        if strategy is 'Breadth':
             return self.depth
-        elif strategy is 'costo':
-            return self.path_cost
+        elif strategy is 'Uniform':
+            return self.cost
+        elif strategy is 'Depth':
+            return 1 / (self.depth + 1)
+
+    def __str__(self):
+        return '[' + str(self.id_node) + ']([' + str(self.action) + ']' + self.state.cube.hash + ',c=' + str(
+            self.cost) + ',p=' + str(
+            self.depth) + ',f=' + str(
+            self.function) + ')'
+
+    def __gt__(self, other):
+        """
+        Utilizado en la cola de prioridad para comprarar dos nodos
+        """
+        return self.function > other.function
