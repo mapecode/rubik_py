@@ -34,4 +34,7 @@ class Node:
         """
         Utilizado en la cola de prioridad para comprarar dos nodos
         """
-        return self.function > other.function
+        if self.function == other.function:
+            return self.id_node > other.id_node
+        else:
+            return self.function > other.function
