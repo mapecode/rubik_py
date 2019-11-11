@@ -8,42 +8,58 @@ from Modules.cube import *
 from Modules.search.problem import Problem
 from Modules.search.frontier import Frontier
 from Modules.search.node import Node
+from Modules.stack import Stack
 
-
-def create_node_list(successors_list, parent, max_depth, strategy):
-    node_list = []
-
-    if parent.depth < int(max_depth):
-        for successor in successors_list:
-            action, state, cost = successor
-            node_list.append(Node(parent, state, cost, strategy, action))
-
-    return node_list
+id_node = 0
 
 
 def limited_search(prob, strategy, max_depth):
+    def create_node_list(successors_list, parent, max_depth, strategy):
+        node_list = []
+        global id_node
+
+        if parent.depth < int(max_depth):
+            for successor in successors_list:
+                action, state, cost = successor
+                id_node += 1
+                node_list.append(Node(id_node, parent, state, cost, strategy, action))
+
+        return node_list
+
     def create_solution(node):
-        return node.state.cube
+        stack = Stack()
+        node_aux = node
+        solution = []
 
+        while node_aux.parent is not None:
+            stack.push(node_aux)
+            node_aux = node_aux.parent
+
+        stack.push(node_aux)
+
+        while not stack.is_empty():
+            solution.append(stack.pop())
+
+        return solution
+
+    global id_node
     frontier = Frontier()
-    frontier.insert([Node(None, prob.initial_state, 0, strategy, None)])
-    solution = False
-    current_node = None
+    id_node += 1
+    frontier.insert([Node(id_node, None, prob.initial_state, 0, strategy, None)])
 
-    while not solution and not frontier.is_empty():
+    while not frontier.is_empty():
         current_node = frontier.remove()
         current_state = current_node.state
 
+        print(current_node)
         if prob.is_goal(current_state):
-            solution = True
+            return create_solution(current_node)
         else:
             successor_list = prob.generate_state_space(current_state).successors
             node_list = create_node_list(successor_list, current_node, max_depth, strategy)
             frontier.insert(node_list)
-    if solution:
-        return create_solution(current_node)
-    else:
-        return None
+
+    return None
 
 
 def search(prob, strategy, max_depth, depth_increment):
@@ -61,7 +77,7 @@ def search(prob, strategy, max_depth, depth_increment):
 if __name__ == '__main__':
     problem = Problem("Files/cube2x2.json")
 
-    solution = search(problem, "anchura", 6, 1)
+    solution = search(problem, "Breadth", 6, 1)
 
     print(solution)
 
