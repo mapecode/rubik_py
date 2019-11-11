@@ -4,3 +4,6 @@
 Modules/__pycache__/cube.cpython-37.pyc
 *.pyc
 *.pyc
+*.pyc
+Modules/__pycache__/constants.cpython-36.pyc
+Modules/__pycache__/cube.cpython-36.pyc
