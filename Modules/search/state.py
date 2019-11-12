@@ -1,5 +1,9 @@
 from Modules.cube import Cube
-from Modules.json import read_json
+import json
+
+def read_json(path):
+    with open(path, 'r') as file:
+        return json.load(file)
 
 
 class State:

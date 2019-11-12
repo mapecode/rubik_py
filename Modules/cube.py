@@ -22,7 +22,7 @@ def invert_sequence(sequence):
     sequence = sequence.swapcase()
     seq_invert = ''
 
-    for i in range(len(sequence) - 1, -1, -2):
+    for i in range(c87x len(sequence) - 1, -1, -2):
         seq_invert += sequence[i - 1] + sequence[i]
 
     return seq_invert

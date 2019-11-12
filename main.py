@@ -3,7 +3,6 @@
 ##    Grupo: B1 - 11                      Curso: 2019 / 2020               ##
 #############################################################################
 
-from Modules.json import *
 from Modules.cube import *
 from Modules.search.problem import Problem
 from Modules.search.frontier import Frontier
@@ -11,7 +10,6 @@ from Modules.search.node import Node
 from Modules.stack import Stack
 
 id_node = 0
-
 
 def limited_search(prob, strategy, max_depth):
     def create_node_list(successors_list, parent, max_depth, strategy):
@@ -73,13 +71,24 @@ def search(prob, strategy, max_depth, depth_increment):
 
     return n_sol
 
+def write_solution(solution):
+    print('--------------------------------------------------')
+    f = open("solutions.txt", "w")
+    for n in solution:
+        print(n)
+        f.write(str(n))
+    f.close()
+
+
 
 if __name__ == '__main__':
     problem = Problem("Files/cube2x2.json")
 
     solution = search(problem, "Breadth", 6, 1)
 
-    print(solution)
+    if solution is not None:
+        write_solution(solution)
+
 
 """
     # primera impresion del original antes de aplicar la creacion de sucesores
