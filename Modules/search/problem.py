@@ -4,6 +4,11 @@ import json
 
 
 def read_json(path):
+    """
+    Funcion para la lectura del fichero json con la representacion del cubo
+    :param path:
+    :return:
+    """
     with open(path, 'r') as file:
         return json.load(file)
 
