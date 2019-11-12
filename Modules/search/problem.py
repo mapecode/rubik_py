@@ -1,11 +1,17 @@
 from Modules.search.state import State
 from Modules.search.state_space import StateSpace
+import json
+
+
+def read_json(path):
+    with open(path, 'r') as file:
+        return json.load(file)
 
 
 class Problem:
 
     def __init__(self, path):
-        self.initial_state = State(path)
+        self.initial_state = State(read_json(path))
 
     def is_goal(self, state):
         """
