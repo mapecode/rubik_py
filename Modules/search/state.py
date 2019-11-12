@@ -1,14 +1,10 @@
 from Modules.cube import Cube
-import json
-
-def read_json(path):
-    with open(path, 'r') as file:
-        return json.load(file)
+import math
 
 
 class State:
-    def __init__(self, path):
-        self.cube = Cube(read_json(path))
+    def __init__(self, dic_cube):
+        self.cube = Cube(dic_cube)
 
     def apply_action(self, action):
         """
@@ -55,3 +51,7 @@ class State:
                 break
 
         return correct
+
+    def calculate_heuristic(self):
+        pass
+
