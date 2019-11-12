@@ -14,7 +14,7 @@ class StateSpace:
         succesors = []
 
         # para cada movimiento se genera una accion segun la n del cubo
-        for movement in ['L', 'l', 'D', 'd', 'B', 'b']:
+        for movement in ['B', 'b', 'D', 'd', 'L', 'l']:
             for i in range(self.state.cube.n):
                 action = movement + str(i)
                 succesors.append((action, self.__generate_state(action), 1))
