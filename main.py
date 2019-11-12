@@ -10,9 +10,21 @@ from Modules.search.node import Node
 from Modules.stack import Stack
 
 id_node = 0
+cut_dic = {}
 
 
 def limited_search(prob, strategy, max_depth):
+    def cut(n):
+        if n.state.cube.hash in cut_dic:
+            if n.function < cut_dic[n.state.cube.hash]:
+                cut_dic[n.state.cube.hash] = n.function
+                return n
+        else:
+            cut_dic[n.state.cube.hash] = n.function
+            return n
+
+        return None
+
     def create_node_list(successors_list, parent, max_depth, strategy):
         node_list = []
         global id_node
@@ -20,8 +32,14 @@ def limited_search(prob, strategy, max_depth):
         if parent.depth < int(max_depth):
             for successor in successors_list:
                 action, state, cost = successor
+                n = cut(Node(id_node, parent, state, cost, strategy, action))
                 id_node += 1
-                node_list.append(Node(id_node, parent, state, cost, strategy, action))
+
+                if n is not None:
+                    node_list.append(n)
+
+
+
 
         return node_list
 
@@ -43,8 +61,10 @@ def limited_search(prob, strategy, max_depth):
 
     global id_node
     frontier = Frontier()
-    id_node += 1
+
     frontier.insert([Node(id_node, None, prob.initial_state, 0, strategy, None)])
+    id_node += 1
+
 
     while not frontier.is_empty():
         current_node = frontier.remove()
@@ -84,21 +104,11 @@ def write_solution(solution):
 
 if __name__ == '__main__':
     problem = Problem("Files/cube2x2.json")
-    s = problem.initial_state
-    print(s.cube)
-    s.apply_action("b0")
-    s.apply_action("D0")
-    s.apply_action("d1")
-    s.apply_action("B0")
-    s.apply_action("B0")
-    print(s.cube.hash=='91b788d5565df3def0d775110527845c')
-"""
+
     solution = search(problem, "Breadth", 6, 1)
 
     if solution is not None:
         write_solution(solution)
-"""
-
 
 """
     # primera impresion del original antes de aplicar la creacion de sucesores
