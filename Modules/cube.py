@@ -17,6 +17,7 @@ def create_cube(cube_values):
 
     return cube, len(cube[0])
 
+
 """
 def invert_sequence(sequence):
     sequence = sequence.swapcase()
@@ -27,6 +28,7 @@ def invert_sequence(sequence):
 
     return seq_invert
 """
+
 
 class Cube:
     def __init__(self, dic_cube):
