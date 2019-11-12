@@ -138,21 +138,31 @@ class Cube:
                 if id_face is constant.BACK:
                     faces_copy.append(copy.copy(self.faces[id_face][pos]))
                 elif id_face is constant.RIGHT:
-                    faces_copy.append(copy.copy(self.faces[id_face][:, row_column])[::-1])
+                    faces_copy.append(copy.copy(self.faces[id_face][:, row_column]))
                 elif id_face is constant.FRONT:
                     faces_copy.append(copy.copy(self.faces[id_face][row_column]))
                 elif id_face is constant.LEFT:
-                    faces_copy.append(copy.copy(self.faces[id_face][:, pos])[::-1])
+                    faces_copy.append(copy.copy(self.faces[id_face][:, pos]))
 
             for i in range(len(faces_sequence)):
                 if faces_sequence[i] is constant.BACK:
                     self.faces[faces_sequence[i]][pos] = faces_copy[i - 1]
                 elif faces_sequence[i] is constant.RIGHT:
-                    self.faces[faces_sequence[i]][:, row_column] = faces_copy[i - 1][::-1]
+                    if rotate:
+                        self.faces[faces_sequence[i]][:, row_column] = faces_copy[i - 1]
+                    else:
+                        self.faces[faces_sequence[i]][:, row_column] = faces_copy[i - 1][::-1]
                 elif faces_sequence[i] is constant.FRONT:
-                    self.faces[faces_sequence[i]][row_column] = faces_copy[i - 1]
+                    if rotate:
+                        self.faces[faces_sequence[i]][row_column] = faces_copy[i - 1][::-1]
+                    else:
+                        self.faces[faces_sequence[i]][row_column] = faces_copy[i - 1]
+
                 elif faces_sequence[i] is constant.LEFT:
-                    self.faces[faces_sequence[i]][:, pos] = faces_copy[i - 1][::-1]
+                    if rotate:
+                        self.faces[faces_sequence[i]][:, pos] = faces_copy[i - 1]
+                    else:
+                        self.faces[faces_sequence[i]][:, pos] = faces_copy[i - 1][::-1]
 
         # Comprobacion rotacion sobre si misma (Down o Up)
         if row_column == 0:

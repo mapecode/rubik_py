@@ -83,16 +83,15 @@ def write_solution(solution):
 
 
 if __name__ == '__main__':
-    problem = Problem("Files/cube10x10.json")
+    problem = Problem("Files/cube2x2.json")
     s = problem.initial_state
-
-    print(s.cube.hash == '69db38e2ce96d3044adc00e612a810b0')
-
-   # s.apply_action("b0")
-    #print(s.cube.hash == '3738b536b078d9c8038988d9a8571973')
-    s.apply_action('l1')
-    print(s.cube.hash == '3072cd153434334e62487aa2c52d0b1c')
-
+    print(s.cube)
+    s.apply_action("b0")
+    s.apply_action("D0")
+    s.apply_action("d1")
+    s.apply_action("B0")
+    s.apply_action("B0")
+    print(s.cube.hash=='91b788d5565df3def0d775110527845c')
 """
     solution = search(problem, "Breadth", 6, 1)
 
