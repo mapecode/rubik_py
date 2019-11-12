@@ -11,6 +11,7 @@ from Modules.stack import Stack
 
 id_node = 0
 
+
 def limited_search(prob, strategy, max_depth):
     def create_node_list(successors_list, parent, max_depth, strategy):
         node_list = []
@@ -71,6 +72,7 @@ def search(prob, strategy, max_depth, depth_increment):
 
     return n_sol
 
+
 def write_solution(solution):
     print('--------------------------------------------------')
     f = open("solutions.txt", "w")
@@ -80,14 +82,23 @@ def write_solution(solution):
     f.close()
 
 
-
 if __name__ == '__main__':
-    problem = Problem("Files/cube2x2.json")
+    problem = Problem("Files/cube10x10.json")
+    s = problem.initial_state
 
+    print(s.cube.hash == '69db38e2ce96d3044adc00e612a810b0')
+
+   # s.apply_action("b0")
+    #print(s.cube.hash == '3738b536b078d9c8038988d9a8571973')
+    s.apply_action('l1')
+    print(s.cube.hash == '3072cd153434334e62487aa2c52d0b1c')
+
+"""
     solution = search(problem, "Breadth", 6, 1)
 
     if solution is not None:
         write_solution(solution)
+"""
 
 
 """
