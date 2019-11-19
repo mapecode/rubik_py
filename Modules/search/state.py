@@ -1,5 +1,6 @@
 from Modules.cube import Cube
 import math
+import numpy as np
 
 
 class State:
@@ -37,7 +38,7 @@ class State:
             :param face: cara a comprobar
             :return: comprobacion
             """
-            for i in range(1, self.cube.n * 2):
+            for i in range(1, self.cube.n * self.cube.n):
                 # Compara el primer valor con el resto de valores
                 if face[0][0] != face[i // self.cube.n][i % self.cube.n]:
                     return False
@@ -53,5 +54,26 @@ class State:
         return correct
 
     def calculate_heuristic(self):
-        pass
+        def count_colors(f):
+            counter = np.zeros((6,), dtype=int)
 
+            for i in range(0, self.cube.n * self.cube.n):
+                counter[f[i // self.cube.n][i % self.cube.n]] += 1
+
+            return counter
+
+        def calculate_entropy(c):
+            entropy = 0
+            for i in range(0, 6):
+                if c[i] > 0:
+                    p = c[i] / (self.cube.n * self.cube.n)
+                    entropy += p * math.log(p, 6)
+
+            return -entropy
+
+        heuristic = 0
+        for face in self.cube.faces:
+            counter = count_colors(face)
+            heuristic += calculate_entropy(counter)
+
+        return round(heuristic,2)
