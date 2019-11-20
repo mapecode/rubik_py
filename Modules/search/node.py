@@ -25,7 +25,7 @@ class Node:
             return self.cost
         elif self.strategy is 'Depth':
             return 1 / (self.depth + 1)
-        elif self.strategy is 'A*':
+        elif self.strategy is 'A':
             self.heuristic = self.state.calculate_heuristic()
             return self.heuristic + self.cost
         elif self.strategy is 'Greedy':
@@ -33,7 +33,7 @@ class Node:
             return self.heuristic
 
     def __str__(self):
-        if self.strategy is 'A*' or self.strategy is 'Greedy':
+        if self.strategy is 'A' or self.strategy is 'Greedy':
             return '[' + str(self.id_node) + ']([' + str(self.action) + ']' + self.state.cube.hash + ',c=' + str(
                 self.cost) + ',p=' + str(
                 self.depth) + ',h=' + str(self.heuristic) + ',f=' + str(
