@@ -8,12 +8,15 @@ from Modules.search.problem import Problem
 from Modules.search.frontier import Frontier
 from Modules.search.node import Node
 from Modules.stack import Stack
+import numpy
 
 id_node = 0
-cut_dic = {}
 
 
 def limited_search(prob, strategy, max_depth):
+    frontier = Frontier()
+    cut_dic = {}
+
     def cut(n):
         if n.state.cube.hash in cut_dic:
             if n.function < cut_dic[n.state.cube.hash]:
@@ -33,13 +36,11 @@ def limited_search(prob, strategy, max_depth):
             for successor in successors_list:
                 action, state, cost = successor
                 n = cut(Node(id_node, parent, state, cost, strategy, action))
-                id_node += 1
 
                 if n is not None:
                     node_list.append(n)
 
-
-
+                id_node += 1
 
         return node_list
 
@@ -60,11 +61,8 @@ def limited_search(prob, strategy, max_depth):
         return solution
 
     global id_node
-    frontier = Frontier()
-
     frontier.insert([Node(id_node, None, prob.initial_state, 0, strategy, None)])
     id_node += 1
-
 
     while not frontier.is_empty():
         current_node = frontier.remove()
@@ -85,9 +83,10 @@ def search(prob, strategy, max_depth, depth_increment):
     current_depth = depth_increment
 
     n_sol = None
-
+    global id_node
     while n_sol is None and current_depth <= max_depth:
-        n_sol = limited_search(prob, strategy, max_depth)
+        n_sol = limited_search(prob, strategy, current_depth)
+        id_node = 0
         current_depth += depth_increment
 
     return n_sol
@@ -97,18 +96,25 @@ def write_solution(solution):
     print('--------------------------------------------------')
     f = open("solutions.txt", "w")
     for n in solution:
-        print(n)
-        f.write(str(n))
+        f.write(str(n) + '\n')
     f.close()
+
+
+def print_solution(solution):
+    print('--------------------------------------------------')
+    for n in solution:
+        print(n)
 
 
 if __name__ == '__main__':
     problem = Problem("Files/cube2x2.json")
 
-    solution = search(problem, "Breadth", 6, 1)
+    solution = search(problem, "Breadth", 6, 6)
 
     if solution is not None:
-        write_solution(solution)
+        print_solution(solution)
+    else:
+        print("Sin solucion")
 
 """
     # primera impresion del original antes de aplicar la creacion de sucesores
