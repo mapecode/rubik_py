@@ -1,20 +1,34 @@
-from queue import PriorityQueue
+import heapq
 
 
 class Frontier:
+    def __init__(self):
+        self.__queue = []
+
+    def insert(self, nodes):
+        for node in nodes:
+            heapq.heappush(self.__queue, node)
+
+    def remove(self):
+        return heapq.heappop(self.__queue)
+
+    def is_empty(self):
+        return len(self.__queue) == 0
+
+
+"""class Frontier:
     def __init__(self):
         self.__queue = PriorityQueue()
 
     def insert(self, nodes):
         for node in nodes:
-            self.__queue.put(node)
+            self.__queue.put_nowait(node)
 
     def remove(self):
-        return self.__queue.get()
+        return self.__queue.get_nowait()
 
     def is_empty(self):
-        return self.__queue.empty()
-
+        return self.__queue.empty()"""
 
 """
 class Frontier:
