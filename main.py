@@ -106,21 +106,29 @@ def print_solution(solution):
     for n in solution:
         print(n)
 
+def execution_time(initial_time):
+    total_time = (time.time()-initial_time)
+    if total_time < 60:
+        print("\t* Tiempo de ejecucion:", round(total_time,2), "segundos.")
+    else:
+        print("\t* Tiempo de ejecucion:", round(total_time/60,2), "minutos.")
+
+
+
 
 if __name__ == '__main__':
     ti = time.time()
     problem = Problem("Files/cube2x2.json")
 
-    solution = search(problem, "Breadth", 6, 6)
+    solution = search(problem, "A", 6, 6)
 
     if solution is not None:
         print_solution(solution)
     else:
         print("Sin solucion")
     print('----------------------------------------------------------------')
-    print("\t* Tiempo de ejecucion:", round((time.time()-ti),2), "segundos.")
-
-    ''' 13.21 segundos.'''
+    execution_time(ti);
+    ''' Anchura heapq: '''
 """
     # primera impresion del original antes de aplicar la creacion de sucesores
     print(c)
