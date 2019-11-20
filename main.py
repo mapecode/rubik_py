@@ -9,6 +9,7 @@ from Modules.search.frontier import Frontier
 from Modules.search.node import Node
 from Modules.stack import Stack
 import numpy
+import time
 
 id_node = 0
 
@@ -93,7 +94,7 @@ def search(prob, strategy, max_depth, depth_increment):
 
 
 def write_solution(solution):
-    print('--------------------------------------------------')
+    print('-----------------------------------------------------------------')
     f = open("solutions.txt", "w")
     for n in solution:
         f.write(str(n) + '\n')
@@ -101,12 +102,13 @@ def write_solution(solution):
 
 
 def print_solution(solution):
-    print('--------------------------------------------------')
+    print('-----------------------------------------------------------------')
     for n in solution:
         print(n)
 
 
 if __name__ == '__main__':
+    ti = time.time()
     problem = Problem("Files/cube2x2.json")
 
     solution = search(problem, "Breadth", 6, 6)
@@ -115,7 +117,10 @@ if __name__ == '__main__':
         print_solution(solution)
     else:
         print("Sin solucion")
+    print('----------------------------------------------------------------')
+    print("\t* Tiempo de ejecucion:", round((time.time()-ti),2), "segundos.")
 
+    ''' 13.21 segundos.'''
 """
     # primera impresion del original antes de aplicar la creacion de sucesores
     print(c)
