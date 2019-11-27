@@ -146,7 +146,11 @@ class Cube:
 
             for i in range(len(faces_sequence)):
                 if faces_sequence[i] is constant.BACK:
-                    self.faces[faces_sequence[i]][pos] = faces_copy[i - 1]
+                    if rotate:
+                        self.faces[faces_sequence[i]][pos] = faces_copy[i - 1][::-1]
+                    else:
+                        self.faces[faces_sequence[i]][pos] = faces_copy[i - 1]
+
                 elif faces_sequence[i] is constant.RIGHT:
                     if rotate:
                         self.faces[faces_sequence[i]][:, row_column] = faces_copy[i - 1]
