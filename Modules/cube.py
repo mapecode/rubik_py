@@ -31,8 +31,8 @@ def invert_sequence(sequence):
 
 
 class Cube:
-    def __init__(self, dic_cube):
-        self.faces, self.n = create_cube(dic_cube.values())
+    def __init__(self, dict_cube):
+        self.faces, self.n = create_cube(dict_cube.values())
         self.hash = self.__cube_to_md5()
 
     def __cube_to_md5(self):
@@ -103,13 +103,13 @@ class Cube:
             faces_copy = []
             pos = self.n - (column + 1)
             for id_face in faces_sequence:
-                if id_face == constant.UP:
+                if id_face is constant.UP:
                     faces_copy.append(copy.copy(self.faces[id_face][:, pos])[::-1])
                 else:
                     faces_copy.append(copy.copy(self.faces[id_face][:, column]))
 
             for i in range(len(faces_sequence)):
-                if faces_sequence[i] == constant.UP:
+                if faces_sequence[i] is constant.UP:
                     self.faces[faces_sequence[i]][:, pos] = faces_copy[i - 1][::-1]
                 else:
                     self.faces[faces_sequence[i]][:, column] = faces_copy[i - 1]
@@ -150,7 +150,6 @@ class Cube:
                         self.faces[faces_sequence[i]][pos] = faces_copy[i - 1][::-1]
                     else:
                         self.faces[faces_sequence[i]][pos] = faces_copy[i - 1]
-
                 elif faces_sequence[i] is constant.RIGHT:
                     if rotate:
                         self.faces[faces_sequence[i]][:, row_column] = faces_copy[i - 1]

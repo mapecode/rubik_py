@@ -95,7 +95,8 @@ def search(prob, strategy, max_depth, depth_increment):
 
 def write_solution(solution):
     print('-----------------------------------------------------------------')
-    f = open("solutions.txt", "w")
+    f = open("solution.txt", "w")
+    f.write("Solucion cubo: " + cube_path.replace("Files/", '') + '\n')
     for n in solution:
         f.write(str(n) + '\n')
     f.close()
@@ -118,7 +119,8 @@ def execution_time(initial_time):
 
 if __name__ == '__main__':
     ti = time.time()
-    problem = Problem("Files/cube2x2.json")
+    cube_path = "Files/cube3x3.json"
+    problem = Problem(cube_path)
 
     solution = search(problem, "A", 6, 6)
 
@@ -126,7 +128,9 @@ if __name__ == '__main__':
         print_solution(solution)
     else:
         print("Sin solucion")
+
     print('----------------------------------------------------------------')
+
     execution_time(ti);
     ''' Anchura heapq: '''
 """
