@@ -3,47 +3,31 @@ import heapq
 
 class Frontier:
     def __init__(self):
+        """
+        Constructor de la clase frontera, se crea una lista de forma privada que representara una
+        cola de prioridad, gestionada con heapq
+        """
         self.__queue = []
 
     def insert(self, nodes):
+        """
+        Inserta la lista de nodes segun la prioridad correspondiente, que depende de la f o id del nodo
+        :param nodes: lista de nodos a introducir
+        :return:
+        """
         for node in nodes:
             heapq.heappush(self.__queue, node)
 
     def remove(self):
+        """
+        Devuelve y elimina el primer elemento de la frontera
+        :return: primer elemento de self.__queue
+        """
         return heapq.heappop(self.__queue)
 
     def is_empty(self):
+        """
+        Devuelve si la cola esta vacia
+        :return: comprobacion de la longitud de self.__queue
+        """
         return len(self.__queue) == 0
-
-
-"""class Frontier:
-    def __init__(self):
-        self.__queue = PriorityQueue()
-
-    def insert(self, nodes):
-        for node in nodes:
-            self.__queue.put_nowait(node)
-
-    def remove(self):
-        return self.__queue.get_nowait()
-
-    def is_empty(self):
-        return self.__queue.empty()"""
-
-"""
-class Frontier:
-    def __init__(self):
-        self.frontier_list = []
-
-    def insert(self, nodes):
-        for node in nodes:
-            self.frontier_list.append(node)
-
-        self.frontier_list = sorted(self.frontier_list, key=lambda Node: Node.function)
-
-    def remove(self):
-        return self.frontier_list.pop(0)
-
-    def is_empty(self):
-        return len(self.frontier_list) == 0
-"""
