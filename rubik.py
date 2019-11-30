@@ -15,10 +15,23 @@ id_node = 0
 
 
 def limited_search(prob, strategy, max_depth):
+    """
+    Funcion para aplicar la busqueda acotada
+    :param prob: representa el problema del que se parte
+    :param strategy: estrategia a aplicar
+    :param max_depth: maxima profundidad a la se debe llegar
+    :return: solucion si se encuentra, None si no se encuentra
+    """
     frontier = Frontier()
     cut_dic = {}
 
     def cut(n):
+        """
+        Funcion de poda de un nodo que, si ya ha sido añadido a la frontera se comprueba si tiene mejor f.
+        En caso afirmativo se introducira, y en caso contrario no.
+        :param n: nodo candidato a podar
+        :return:
+        """
         if n.state.cube.hash in cut_dic:
             if n.function < cut_dic[n.state.cube.hash]:
                 cut_dic[n.state.cube.hash] = n.function
@@ -30,6 +43,15 @@ def limited_search(prob, strategy, max_depth):
         return None
 
     def create_node_list(successors_list, parent, max_depth, strategy):
+        """
+        Funcion que crea los nodos hijos de un nodo. Para cada posible nodo que se crea se llama a la funcion de poda
+        para decidir si se va a introducir a la frontera
+        :param successors_list: lista de sucesores de un nodo
+        :param parent: padre del nodo
+        :param max_depth: profundidad maxima
+        :param strategy: estrategia aplicada
+        :return: la lista de nodos generada
+        """
         node_list = []
         global id_node
 
@@ -46,6 +68,13 @@ def limited_search(prob, strategy, max_depth):
         return node_list
 
     def create_solution(node):
+        """
+        Funcion para crear la solucion al encontrar el estado objetivo, recorriendo el camino seguido gracias al
+        predecesor o padre de cada nodo. Este camino se invertira para tener la secuencia de acciones aplicadas desde
+        el cubo inicial
+        :param node: nodo con el estado objetivo
+        :return: string con la secuencia de acciones para resolver el cubo inicial, una por linea
+        """
         stack = Stack()
         node_aux = node
         solution = []
@@ -80,19 +109,35 @@ def limited_search(prob, strategy, max_depth):
 
 
 def search(prob, strategy, max_depth, depth_increment):
+    """
+    Funcion que aplica la busqueda. Llamara a la funcion de busqueda acotada segun la profundidad maxima e incremento
+    de esta elegidos
+    :param prob: representa el problema del que partimso
+    :param strategy: estrategia a aplicar
+    :param max_depth: maxima profundidad a la que se llegara
+    :param depth_increment: incremento de la profundidad
+    :return: la solucion si se encuentra
+    """
     current_depth = depth_increment
 
-    n_sol = None
+    sol = None
     global id_node
-    while n_sol is None and current_depth <= max_depth:
-        n_sol = limited_search(prob, strategy, current_depth)
+    while sol is None and current_depth <= max_depth:
+        sol = limited_search(prob, strategy, current_depth)
         id_node = 0
         current_depth += depth_increment
 
-    return n_sol
+    return sol
 
 
 def write_solution(cube, strategy, solution):
+    """
+    Escribe la solucion en el fichero 'solution.txt'
+    :param cube: fichero del cubo inicial
+    :param strategy: estrategia seguida
+    :param solution: secuencia de pasos hasta el estado objetivo
+    :return:
+    """
     f = open("solution.txt", "w")
     f.write('Cube: ' + cube + '\n')
     f.write('Strategy: ' + strategy + '\n')
@@ -100,12 +145,12 @@ def write_solution(cube, strategy, solution):
     f.close()
 
 
-def print_solution(solution):
-    print('-----------------------------------------------------------------')
-    print(solution)
-
-
 def execution_time(initial_time):
+    """
+    Calcula el tiempo de ejecucion dado un tiempo inicial
+    :param initial_time: tiempo inicial
+    :return:
+    """
     total_time = (time.time() - initial_time)
     if total_time < 60:
         print("\t* Tiempo de ejecucion:", round(total_time, 2), "segundos.")
@@ -114,6 +159,10 @@ def execution_time(initial_time):
 
 
 def check_argv():
+    """
+    Comprueba los argumentos y obtiene los datos necesarios para iniciar la busqueda
+    :return: la profundidad maxima, el incremento de la profundidad, la estrategia, el problema del que se parte
+    """
     global depth_increment, max_depth, strategy, problem
     strategies = ['Breadth', 'Limited_Depth', 'Iterative_Depth', 'Simple_Depth', 'Cost', 'A', 'Greedy']
 
@@ -148,7 +197,8 @@ if __name__ == '__main__':
 
     solution = search(problem, strategy, depth_increment, max_depth)
     if solution is not None:
-        print_solution(solution)
+        print('-----------------------------------------------------------------')
+        print(solution)
         write_solution(problem.path, strategy, solution)
     else:
         print("Sin solucion")
