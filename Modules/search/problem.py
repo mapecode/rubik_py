@@ -1,5 +1,6 @@
 from Modules.search.state import State
 from Modules.search.state_space import StateSpace
+from Modules.color import Color
 import json
 
 
@@ -9,14 +10,19 @@ def read_json(path):
     :param path:
     :return:
     """
-    with open(path, 'r') as file:
-        return json.load(file)
+    try:
+        with open(path, 'r') as file:
+            return json.load(file)
+    except Exception as e:
+        print(Color.BOLD + Color.RED + 'Error en ' + path + ': ' + str(e) + Color.END)
+        exit()
 
 
 class Problem:
 
     def __init__(self, path):
-        self.initial_state = State(read_json(path))
+        self.path = path
+        self.initial_state = State(read_json(self.path))
 
     def is_goal(self, node, strategy):
         """
