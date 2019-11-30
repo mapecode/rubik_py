@@ -1,9 +1,8 @@
 
 *.pyc
-*.pyc
-Modules/__pycache__/cube.cpython-37.pyc
-*.pyc
-*.pyc
-*.pyc
-Modules/__pycache__/constants.cpython-36.pyc
-Modules/__pycache__/cube.cpython-36.pyc
+.DS_Store
+*.txt
+*.xml
+Modules/__init__.py
+*.iml
+
