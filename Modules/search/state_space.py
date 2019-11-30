@@ -3,6 +3,10 @@ import copy
 
 class StateSpace:
     def __init__(self, state):
+        """
+        Constructor de la clase espacio de estados
+        :param state: estado para generar sucesores
+        """
         self.state = state
         self.successors = self.generate_successors()
 
