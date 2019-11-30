@@ -21,16 +21,16 @@ class Node:
     def define_f(self):
         if self.strategy is 'Breadth':
             return self.depth
-        elif self.strategy is 'Uniform':
+        elif self.strategy is 'Cost':
             return self.cost
-        elif self.strategy is 'Depth':
-            return 1 / (self.depth + 1)
         elif self.strategy is 'A':
             self.heuristic = self.state.calculate_heuristic()
             return self.heuristic + self.cost
         elif self.strategy is 'Greedy':
             self.heuristic = self.state.calculate_heuristic()
             return self.heuristic
+        else:
+            return 1 / (self.depth + 1)
 
     def __str__(self):
         if self.strategy is 'A' or self.strategy is 'Greedy':
