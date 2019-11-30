@@ -31,7 +31,7 @@ Los movimientos que se aplicarán al cubo están representados en la siguiente i
 ## Ejecución
 python3 rubik.py <max_depth> <depth_increment> <strategy> <cube.json>
 
-Durante la ejecución se podrán apreciar los diferentes nodos que se van generando. Si la ejecución es exitosa se observará la secuencia de acciones que se han aplicado para resolver el cubo. Esta secuencia de acciones quedará guardada en un fichero llamado __solution.txt__.
+Si la ejecución es exitosa se observará la secuencia de acciones que se han aplicado para resolver el cubo. Esta secuencia de acciones quedará guardada en un fichero llamado __solution.txt__.
 
 
 
