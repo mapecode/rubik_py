@@ -49,7 +49,7 @@ class State:
             return True
 
         if heuristic is not None:
-            return heuristic == 0
+            return heuristic == 0.0
         else:
             correct = True
             for face in self.cube.faces:

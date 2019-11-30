@@ -97,7 +97,6 @@ def limited_search(prob, strategy, max_depth):
     while not frontier.is_empty():
         current_node = frontier.remove()
 
-        print(current_node)
         if prob.is_goal(current_node, strategy):
             return create_solution(current_node)
         else:
@@ -122,6 +121,8 @@ def search(prob, strategy, max_depth, depth_increment):
 
     sol = None
     global id_node
+
+    print('Buscando solucion...')
     while sol is None and current_depth <= max_depth:
         sol = limited_search(prob, strategy, current_depth)
         id_node = 0
@@ -164,7 +165,7 @@ def check_argv():
     :return: la profundidad maxima, el incremento de la profundidad, la estrategia, el problema del que se parte
     """
     global depth_increment, max_depth, strategy, problem
-    strategies = ['Breadth', 'Limited_Depth', 'Iterative_Depth', 'Simple_Depth', 'Cost', 'A', 'Greedy']
+    strategies = ['breadth', 'limited_depth', 'iterative_depth', 'simple_depth', 'cost', 'a', 'greedy']
 
     if len(sys.argv) is not 5:
         print(Color.BOLD + Color.RED + 'Error en los argumentos \n'
@@ -195,7 +196,7 @@ if __name__ == '__main__':
 
     ti = time.time()
 
-    solution = search(problem, strategy, depth_increment, max_depth)
+    solution = search(problem, str(strategy), depth_increment, max_depth)
     if solution is not None:
         print('-----------------------------------------------------------------')
         print(solution)
