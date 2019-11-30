@@ -3,13 +3,13 @@
 ##    Grupo: B1 - 11                      Curso: 2019 / 2020               ##
 #############################################################################
 
-from Modules.cube import *
 from Modules.search.problem import Problem
 from Modules.search.frontier import Frontier
 from Modules.search.node import Node
 from Modules.stack import Stack
-import numpy
+from Modules.color import Color
 import time
+import sys
 
 id_node = 0
 
@@ -94,8 +94,8 @@ def search(prob, strategy, max_depth, depth_increment):
 
 def write_solution(cube, strategy, solution):
     f = open("solution.txt", "w")
-    f.write('Cube: '+cube+'\n')
-    f.write('Strategy: '+strategy+'\n')
+    f.write('Cube: ' + cube + '\n')
+    f.write('Strategy: ' + strategy + '\n')
     f.write(solution)
     f.close()
 
@@ -113,17 +113,44 @@ def execution_time(initial_time):
         print("\t* Tiempo de ejecucion:", round(total_time / 60, 2), "minutos.")
 
 
-if __name__ == '__main__':
-    ti = time.time()
-    cube = "Files/cube2x2.json"
-    strategy = 'A'
-    problem = Problem(cube)
+def check_argv():
+    global depth_increment, max_depth, strategy, problem
+    strategies = ['Breadth', 'Limited_Depth', 'Iterative_Depth', 'Simple_Depth', 'Cost', 'A', 'Greedy']
 
-    solution = search(problem, strategy, 6, 6)
+    if len(sys.argv) is not 5:
+        print(Color.BOLD + Color.RED + 'Error en los argumentos \n'
+                                       'Uso correcto: python3 rubik.py <max_depth> <depth_increment> '
+                                       '<strategy> <cube.json>' + Color.END)
+        exit()
+    else:
+        try:
+            max_depth = int(sys.argv[1])
+            depth_increment = int(sys.argv[2])
+        except Exception as e:
+            print(Color.BOLD + Color.RED + 'Error en los argumentos: ' + str(e) + Color.END)
+            exit()
+
+        strategy = sys.argv[3]
+        if strategy not in strategies:
+            print(Color.BOLD + Color.RED + "Estrategia '" + strategy + "' incorrecta" + Color.END)
+            print('Estrategias validas:', ', '.join(strategies))
+            exit()
+        problem = Problem(sys.argv[4])
+
+    return max_depth, depth_increment, strategy, problem
+
+
+if __name__ == '__main__':
+
+    max_depth, depth_increment, strategy, problem = check_argv()
+
+    ti = time.time()
+
+    solution = search(problem, strategy, depth_increment, max_depth)
     if solution is not None:
         print_solution(solution)
-        write_solution(cube, strategy, solution)
+        write_solution(problem.path, strategy, solution)
     else:
         print("Sin solucion")
     print('----------------------------------------------------------------')
-    execution_time(ti);
+    execution_time(ti)
