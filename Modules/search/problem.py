@@ -7,7 +7,7 @@ import json
 def read_json(path):
     """
     Funcion para la lectura del fichero json con la representacion del cubo
-    :param path:
+    :param path: ruta del fichero json
     :return:
     """
     try:
@@ -21,6 +21,10 @@ def read_json(path):
 class Problem:
 
     def __init__(self, path):
+        """
+        Constructor de la clase problema
+        :param path: ruta del fichero json
+        """
         self.path = path
         self.initial_state = State(read_json(self.path))
 
