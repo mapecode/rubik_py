@@ -18,13 +18,16 @@ class Problem:
     def __init__(self, path):
         self.initial_state = State(read_json(path))
 
-    def is_goal(self, state):
+    def is_goal(self, node, strategy):
         """
         Comprueba si el cubo es correcto
         :param state:
         :return: devuelve la comprobacion
         """
-        return state.is_correct()
+        if strategy is 'A' or strategy is 'Greedy':
+            return node.state.is_correct(strategy, heuristic=node.heuristic)
+        else:
+            return node.state.is_correct(strategy)
 
     def generate_state_space(self, state):
         """

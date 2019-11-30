@@ -26,7 +26,7 @@ class State:
 
         self.cube.update_key()
 
-    def is_correct(self):
+    def is_correct(self, strategy, heuristic=None):
         """
         Comprueba si el cubo esta perfectamente formado
         :return: comprobacion
@@ -44,14 +44,17 @@ class State:
                     return False
             return True
 
-        correct = True
-        for face in self.cube.faces:
-            correct = is_face_correct(face)
+        if heuristic is not None:
+            return heuristic == 0
+        else:
+            correct = True
+            for face in self.cube.faces:
+                correct = is_face_correct(face)
 
-            if not correct:
-                break
+                if not correct:
+                    break
 
-        return correct
+            return correct
 
     def calculate_heuristic(self):
         def count_colors(f):
@@ -76,4 +79,4 @@ class State:
             counter = count_colors(face)
             heuristic += calculate_entropy(counter)
 
-        return round(heuristic,2)
+        return round(heuristic, 2)
