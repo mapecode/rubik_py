@@ -57,9 +57,9 @@ def limited_search(prob, strategy, max_depth):
         stack.push(node_aux)
 
         while not stack.is_empty():
-            solution.append(stack.pop())
+            solution.append(str(stack.pop()))
 
-        return solution
+        return '\n'.join(solution)
 
     global id_node
     frontier.insert([Node(id_node, None, prob.initial_state, 0, strategy, None)])
@@ -67,13 +67,12 @@ def limited_search(prob, strategy, max_depth):
 
     while not frontier.is_empty():
         current_node = frontier.remove()
-        current_state = current_node.state
 
         print(current_node)
-        if prob.is_goal(current_state):
+        if prob.is_goal(current_node, strategy):
             return create_solution(current_node)
         else:
-            successor_list = prob.generate_state_space(current_state).successors
+            successor_list = prob.generate_state_space(current_node.state).successors
             node_list = create_node_list(successor_list, current_node, max_depth, strategy)
             frontier.insert(node_list)
 
@@ -93,58 +92,38 @@ def search(prob, strategy, max_depth, depth_increment):
     return n_sol
 
 
-def write_solution(solution):
-    print('-----------------------------------------------------------------')
+def write_solution(cube, strategy, solution):
     f = open("solution.txt", "w")
-    f.write("Solucion cubo: " + cube_path.replace("Files/", '') + '\n')
-    for n in solution:
-        f.write(str(n) + '\n')
+    f.write('Cube: '+cube+'\n')
+    f.write('Strategy: '+strategy+'\n')
+    f.write(solution)
     f.close()
 
 
 def print_solution(solution):
     print('-----------------------------------------------------------------')
-    for n in solution:
-        print(n)
+    print(solution)
+
 
 def execution_time(initial_time):
-    total_time = (time.time()-initial_time)
+    total_time = (time.time() - initial_time)
     if total_time < 60:
-        print("\t* Tiempo de ejecucion:", round(total_time,2), "segundos.")
+        print("\t* Tiempo de ejecucion:", round(total_time, 2), "segundos.")
     else:
-        print("\t* Tiempo de ejecucion:", round(total_time/60,2), "minutos.")
-
-
+        print("\t* Tiempo de ejecucion:", round(total_time / 60, 2), "minutos.")
 
 
 if __name__ == '__main__':
     ti = time.time()
-    cube_path = "Files/cube3x3.json"
-    problem = Problem(cube_path)
+    cube = "Files/cube2x2.json"
+    strategy = 'A'
+    problem = Problem(cube)
 
-    solution = search(problem, "A", 6, 6)
-
+    solution = search(problem, strategy, 6, 6)
     if solution is not None:
         print_solution(solution)
+        write_solution(cube, strategy, solution)
     else:
         print("Sin solucion")
-
     print('----------------------------------------------------------------')
-
     execution_time(ti);
-    ''' Anchura heapq: '''
-"""
-    # primera impresion del original antes de aplicar la creacion de sucesores
-    print(c)
-
-    s = State(c)
-    sucs = s.successor()
-
-    for suc in sucs:
-        print(suc[1])
-
-    # comprobacion original
-    print(c)
-    
-    
-"""
