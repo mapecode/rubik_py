@@ -5,6 +5,10 @@ import numpy as np
 
 class State:
     def __init__(self, dic_cube):
+        """
+        Constructor de la clase estado
+        :param dic_cube: diccionario que representa las caras del cubo, obtenido de leer el json
+        """
         self.cube = Cube(dic_cube)
 
     def apply_action(self, action):
@@ -57,7 +61,16 @@ class State:
             return correct
 
     def calculate_heuristic(self):
+        """
+        Calcula la heuristica del estado
+        :return:
+        """
         def count_colors(f):
+            """
+            Cuanta la cantidad que hay de cada color de la cara correspondiente
+            :param f: representa la cara para el calculo
+            :return: array con las cantidades
+            """
             counter = np.zeros((6,), dtype=int)
 
             for i in range(0, self.cube.n * self.cube.n):
@@ -66,6 +79,11 @@ class State:
             return counter
 
         def calculate_entropy(c):
+            """
+            Calculo de la entropia de una cara en funcion de la cantidad de colores de una cara
+            :param c: array contador de colores calculado con count_colors
+            :return: resultado del calculo
+            """
             entropy = 0
             for i in range(0, 6):
                 if c[i] > 0:
