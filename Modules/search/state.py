@@ -30,7 +30,7 @@ class State:
 
         self.cube.update_key()
 
-    def is_correct(self, heuristic=None):
+    def is_correct(self, heuristic):
         """
         Comprueba si el cubo esta perfectamente formado
         :return: comprobacion
