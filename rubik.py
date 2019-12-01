@@ -27,10 +27,10 @@ def limited_search(prob, strategy, max_depth):
 
     def cut(n):
         """
-        Funcion de poda de un nodo que, si ya ha sido añadido a la frontera se comprueba si tiene mejor f.
+        Funcion de poda de un nodo que, si el estado de dicho nodo ya ha sido añadido a la frontera se comprueba si tiene mejor f.
         En caso afirmativo se introducira, y en caso contrario no.
         :param n: nodo candidato a podar
-        :return:
+        :return: nodo a insertar en la frontera en caso afirmativo, en caso contrario nada.
         """
         if n.state.cube.hash in cut_dic:
             if n.function < cut_dic[n.state.cube.hash]:
@@ -73,7 +73,7 @@ def limited_search(prob, strategy, max_depth):
         predecesor o padre de cada nodo. Este camino se invertira para tener la secuencia de acciones aplicadas desde
         el cubo inicial
         :param node: nodo con el estado objetivo
-        :return: string con la secuencia de acciones para resolver el cubo inicial, una por linea
+        :return: String con la secuencia de acciones para resolver el cubo inicial, una por linea
         """
         stack = Stack()
         node_aux = node
@@ -110,7 +110,7 @@ def search(prob, strategy, max_depth, depth_increment):
     """
     Funcion que aplica la busqueda. Llamara a la funcion de busqueda acotada segun la profundidad maxima e incremento
     de esta elegidos
-    :param prob: representa el problema del que partimso
+    :param prob: representa el problema del que partimos
     :param strategy: estrategia a aplicar
     :param max_depth: maxima profundidad a la que se llegara
     :param depth_increment: incremento de la profundidad
