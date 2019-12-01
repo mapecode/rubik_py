@@ -34,10 +34,10 @@ class Problem:
         :param state:
         :return: devuelve la comprobacion
         """
-        if strategy.lower() == 'a' or strategy.lower() == 'greedy':
-            return node.state.is_correct(heuristic=node.heuristic)
+        if strategy.lower() == 'a*' or strategy.lower() == 'greedy':
+            return node.state.is_correct(node.heuristic)
         else:
-            return node.state.is_correct()
+            return node.state.is_correct(None)
 
     def generate_state_space(self, state):
         """
