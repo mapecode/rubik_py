@@ -29,7 +29,7 @@ Los movimientos que se aplicarán al cubo están representados en la siguiente i
 * Librería numpy: **pip3 install numpy**
 
 ## Ejecución
-python3 rubik.py <max_depth> <depth_increment> <strategy> <cube.json>
+**python3 rubik.py <[max_depth]> <[depth_increment]> <[strategy]> <[cube.json]>**
 
 Si la ejecución es exitosa se observará la secuencia de acciones que se han aplicado para resolver el cubo. Esta secuencia de acciones quedará guardada en un fichero llamado __solution.txt__.
 
