@@ -96,7 +96,6 @@ def limited_search(prob, strategy, max_depth):
 
     while not frontier.is_empty():
         current_node = frontier.remove()
-        print(current_node)
         if prob.is_goal(current_node, strategy):
             return create_solution(current_node)
         else:
@@ -141,9 +140,8 @@ def write_solution(cube, strategy, solution):
     :return:
     """
     f = open("solution.txt", "w")
-    f.write('* Cube: ' + cube.replace("Files/", "") + '\n' + '* Strategy: \n' + strategy.upper() + '* Solution: \n')
+    f.write('* Cube: ' + cube + '\n' + '* Strategy: ' + strategy.upper() + '\n\n* Solution: \n')
     f.write(solution)
-    f.write('\n --------------------------------------------------------------------------')
     f.close()
 
 
@@ -166,7 +164,7 @@ def check_argv():
     :return: la profundidad maxima, el incremento de la profundidad, la estrategia, el problema del que se parte
     """
     global depth_increment, max_depth, strategy, problem
-    strategies = ['breadth', 'limited_depth', 'iterative_depth', 'simple_depth', 'cost', 'a', 'greedy']
+    strategies = ['breadth', 'limited_depth', 'iterative_depth', 'simple_depth', 'cost', 'a*', 'greedy']
 
     if len(sys.argv) is not 5:
         print(Color.BOLD + Color.RED + 'Error en los argumentos \n'
@@ -181,7 +179,7 @@ def check_argv():
             print(Color.BOLD + Color.RED + 'Error en los argumentos: ' + str(e) + Color.END)
             exit()
 
-        strategy = sys.argv[3]
+        strategy = sys.argv[3].lower()
         if strategy not in strategies:
             print(Color.BOLD + Color.RED + "Estrategia '" + strategy + "' incorrecta" + Color.END)
             print('Estrategias validas:', ', '.join(strategies))
@@ -197,11 +195,10 @@ if __name__ == '__main__':
 
     ti = time.time()
 
-    solution = search(problem, str(strategy), depth_increment, max_depth)
+    solution = search(problem, strategy, depth_increment, max_depth)
     if solution is not None:
-        if strategy.lower() == 'a': strategy += '*'
         print('--------------------------------------------------------------------------')
-        print("* Cube: " + problem.path.replace("Files/", "") + "\n* Strategy: " + strategy.upper() + "\n\n* Solution: ")
+        print("* Cube: " + problem.path + "\n* Strategy: " + strategy.upper() + "\n\n* Solution: ")
         print(Color.BOLD + solution + Color.END)
         write_solution(problem.path, strategy, solution)
     else:
