@@ -32,14 +32,14 @@ class Node:
         Define la funcion segun la estrategia aplicada en la ejecucion
         :return: calculo de f
         """
-        if self.strategy.lower() == 'breadth':
+        if self.strategy.lower() == "breadth":
             return self.depth
-        elif self.strategy.lower() == 'cost':
+        elif self.strategy.lower() == "cost":
             return self.cost
-        elif self.strategy.lower() == 'a':
+        elif self.strategy.lower() == "a*":
             self.heuristic = self.state.calculate_heuristic()
             return self.heuristic + self.cost
-        elif self.strategy.lower() == 'greedy':
+        elif self.strategy.lower() == "greedy":
             self.heuristic = self.state.calculate_heuristic()
             return self.heuristic
         else:
