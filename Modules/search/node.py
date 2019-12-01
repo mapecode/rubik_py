@@ -32,14 +32,14 @@ class Node:
         Define la funcion segun la estrategia aplicada en la ejecucion
         :return: calculo de f
         """
-        if self.strategy == 'breadth':
+        if self.strategy.lower() == 'breadth':
             return self.depth
-        elif self.strategy == 'cost':
+        elif self.strategy.lower() == 'cost':
             return self.cost
-        elif self.strategy == 'a':
+        elif self.strategy.lower() == 'a':
             self.heuristic = self.state.calculate_heuristic()
             return self.heuristic + self.cost
-        elif self.strategy == 'greedy':
+        elif self.strategy.lower() == 'greedy':
             self.heuristic = self.state.calculate_heuristic()
             return self.heuristic
         else:
@@ -50,7 +50,7 @@ class Node:
         Metodo redefinido para la impresion de un objeto de tipo nodo
         :return: string que representa el objeto
         """
-        if self.strategy is 'a' or self.strategy is 'greedy':
+        if self.strategy.lower() == 'a' or self.strategy.lower() == 'greedy':
             return '[' + str(self.id_node) + ']([' + str(self.action) + ']' + self.state.cube.hash + ',c=' + str(
                 self.cost) + ',p=' + str(
                 self.depth) + ',h=' + str(self.heuristic) + ',f=' + str(

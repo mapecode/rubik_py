@@ -96,7 +96,7 @@ def limited_search(prob, strategy, max_depth):
 
     while not frontier.is_empty():
         current_node = frontier.remove()
-
+        print(current_node)
         if prob.is_goal(current_node, strategy):
             return create_solution(current_node)
         else:
@@ -122,7 +122,8 @@ def search(prob, strategy, max_depth, depth_increment):
     sol = None
     global id_node
 
-    print('Buscando solucion...')
+    print("\nBuscando solucion ...")
+
     while sol is None and current_depth <= max_depth:
         sol = limited_search(prob, strategy, current_depth)
         id_node = 0
@@ -140,9 +141,9 @@ def write_solution(cube, strategy, solution):
     :return:
     """
     f = open("solution.txt", "w")
-    f.write('Cube: ' + cube + '\n')
-    f.write('Strategy: ' + strategy + '\n')
+    f.write('* Cube: ' + cube.replace("Files/", "") + '\n' + '* Strategy: \n' + strategy.upper() + '* Solution: \n')
     f.write(solution)
+    f.write('\n --------------------------------------------------------------------------')
     f.close()
 
 
@@ -154,9 +155,9 @@ def execution_time(initial_time):
     """
     total_time = (time.time() - initial_time)
     if total_time < 60:
-        print("\t* Tiempo de ejecucion:", round(total_time, 2), "segundos.")
+        print(Color.BOLD + "\t* Tiempo de ejecucion:", round(total_time, 2), "segundos.\n" + Color.END)
     else:
-        print("\t* Tiempo de ejecucion:", round(total_time / 60, 2), "minutos.")
+        print(Color.BOLD + "\t* Tiempo de ejecucion:", round(total_time / 60, 2), "minutos.\n" + Color.END)
 
 
 def check_argv():
@@ -198,10 +199,12 @@ if __name__ == '__main__':
 
     solution = search(problem, str(strategy), depth_increment, max_depth)
     if solution is not None:
-        print('-----------------------------------------------------------------')
-        print(solution)
+        if strategy.lower() == 'a': strategy += '*'
+        print('--------------------------------------------------------------------------')
+        print("* Cube: " + problem.path.replace("Files/", "") + "\n* Strategy: " + strategy.upper() + "\n\n* Solution: ")
+        print(Color.BOLD + solution + Color.END)
         write_solution(problem.path, strategy, solution)
     else:
         print("Sin solucion")
-    print('----------------------------------------------------------------')
+    print('--------------------------------------------------------------------------')
     execution_time(ti)
